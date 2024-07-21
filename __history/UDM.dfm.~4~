@@ -1,0 +1,13 @@
+object DM: TDM
+  OldCreateOrder = False
+  Height = 387
+  Width = 494
+  object Con: TFDConnection
+    Left = 64
+    Top = 80
+  end
+  object FDPhysFBDriverLink: TFDPhysFBDriverLink
+    Left = 112
+    Top = 152
+  end
+end
