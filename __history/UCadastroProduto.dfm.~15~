@@ -12,7 +12,6 @@
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
-  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl: TPageControl
@@ -96,19 +95,6 @@
       ImageIndex = 1
       ExplicitWidth = 281
       ExplicitHeight = 165
-      object DBGConsulta: TDBGrid
-        Left = 16
-        Top = 32
-        Width = 481
-        Height = 201
-        TabOrder = 0
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'Tahoma'
-        TitleFont.Style = []
-        OnDblClick = DBGConsultaDblClick
-      end
     end
   end
   object Panel1: TPanel
@@ -133,7 +119,6 @@
       Height = 52
       Caption = 'Novo'
       Enabled = False
-      OnClick = BtnNovoClick
     end
     object BtnGravar: TSpeedButton
       Left = 71
@@ -142,7 +127,6 @@
       Height = 52
       Caption = 'Gravar'
       Enabled = False
-      OnClick = BtnGravarClick
     end
     object BtnCancelar: TSpeedButton
       Left = 138
@@ -151,7 +135,6 @@
       Height = 52
       Caption = 'Cancelar'
       Enabled = False
-      OnClick = BtnCancelarClick
     end
     object BtnExcluir: TSpeedButton
       Left = 205

@@ -20,7 +20,7 @@
     Top = 58
     Width = 517
     Height = 278
-    ActivePage = TabSheet1
+    ActivePage = TabSheet2
     Align = alClient
     TabOrder = 0
     ExplicitLeft = 40

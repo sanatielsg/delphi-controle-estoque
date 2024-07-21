@@ -49,13 +49,11 @@ implementation
 procedure TFrmCadastroProduto.BtnCancelarClick(Sender: TObject);
 begin
   SetStatusBotoes(1);
-  LimparCampos;
 end;
 
 procedure TFrmCadastroProduto.BtnGravarClick(Sender: TObject);
 begin
   SetStatusBotoes(1);
-  LimparCampos;
 end;
 
 procedure TFrmCadastroProduto.BtnNovoClick(Sender: TObject);

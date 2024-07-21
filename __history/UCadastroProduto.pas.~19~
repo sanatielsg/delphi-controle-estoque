@@ -34,7 +34,6 @@ type
   public
     { Public declarations }
     procedure SetStatusBotoes(AStatus : Integer);
-    procedure LimparCampos();
   end;
 
 var
@@ -49,13 +48,11 @@ implementation
 procedure TFrmCadastroProduto.BtnCancelarClick(Sender: TObject);
 begin
   SetStatusBotoes(1);
-  LimparCampos;
 end;
 
 procedure TFrmCadastroProduto.BtnGravarClick(Sender: TObject);
 begin
   SetStatusBotoes(1);
-  LimparCampos;
 end;
 
 procedure TFrmCadastroProduto.BtnNovoClick(Sender: TObject);
@@ -67,8 +64,6 @@ procedure TFrmCadastroProduto.DBGConsultaDblClick(Sender: TObject);
 begin
   SetStatusBotoes(3);
   LblCodigo.Caption := '10'; //teste
-  EdtDescricao.Text := 'COCA COLA 2000ML';
-  EdtCodigoBarras.Text := '7894900011517';
 end;
 
 procedure TFrmCadastroProduto.FormShow(Sender: TObject);
@@ -76,18 +71,12 @@ begin
   SetStatusBotoes(1);
 end;
 
-procedure TFrmCadastroProduto.LimparCampos;
-begin
-  EdtDescricao.Text := '';
-  EdtCodigoBarras.Text := '';
-end;
-
 procedure TFrmCadastroProduto.SetStatusBotoes(AStatus: Integer);
 begin
   case AStatus of
 
     1: begin //entrando na tela
-      LblCodigo.Visible := False;
+      LblCodigo.Enabled := False;
       LblCodigo.Caption := '0';
       BtnNovo.Enabled := True;
       BtnGravar.Enabled := False;
@@ -96,7 +85,7 @@ begin
     end;
 
     2: begin //clicou Novo
-      LblCodigo.Visible := False;
+      LblCodigo.Enabled := False;
       LblCodigo.Caption := '0';
       BtnNovo.Enabled := False;
       BtnGravar.Enabled := True;
@@ -104,13 +93,12 @@ begin
       BtnExcluir.Enabled := False;
     end;
 
-    3: begin //vindo da Pesquisa
-      LblCodigo.Visible := True;
+    2: begin //vindo da Pesquisa
+      LblCodigo.Enabled := True;
       BtnNovo.Enabled := False;
       BtnGravar.Enabled := True;
       BtnCancelar.Enabled := True;
       BtnExcluir.Enabled := True;
-      PageControl.ActivePageIndex := 0;
     end;
 
   end;

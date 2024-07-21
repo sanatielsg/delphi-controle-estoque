@@ -96,19 +96,6 @@
       ImageIndex = 1
       ExplicitWidth = 281
       ExplicitHeight = 165
-      object DBGConsulta: TDBGrid
-        Left = 16
-        Top = 32
-        Width = 481
-        Height = 201
-        TabOrder = 0
-        TitleFont.Charset = DEFAULT_CHARSET
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'Tahoma'
-        TitleFont.Style = []
-        OnDblClick = DBGConsultaDblClick
-      end
     end
   end
   object Panel1: TPanel
