@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, UCriarEstrutura, UCadastroProduto;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, UCriarEstrutura;
 
 type
   TFrmPrincipal = class(TForm)
@@ -19,7 +19,6 @@ type
     Sistema1: TMenuItem;
     CriarEstruturas1: TMenuItem;
     procedure CriarEstruturas1Click(Sender: TObject);
-    procedure Produto1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -38,13 +37,6 @@ begin
   FrmCriarEstrutura := TFrmCriarEstrutura.Create(Self);
   FrmCriarEstrutura.ShowModal;
   FrmCriarEstrutura := Nil;
-end;
-
-procedure TFrmPrincipal.Produto1Click(Sender: TObject);
-begin
-  FrmCadastroProduto := TFrmCadastroProduto.Create(Self);
-  FrmCadastroProduto.ShowModal;
-  FrmCadastroProduto := Nil;
 end;
 
 end.

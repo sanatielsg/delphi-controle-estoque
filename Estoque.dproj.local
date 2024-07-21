@@ -2,14 +2,17 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2024/07/21 07:53:42.000.892,=C:\Users\dev\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2024/07/21 07:56:47.000.985,C:\Users\dev\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\git-repositories\delphi-controle-estoque\UPrincipal.dfm</Transaction>
     <Transaction>2024/07/21 07:56:47.000.985,C:\Users\dev\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\git-repositories\delphi-controle-estoque\UPrincipal.pas</Transaction>
+    <Transaction>2024/07/21 07:56:47.000.985,C:\Users\dev\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\git-repositories\delphi-controle-estoque\UPrincipal.dfm</Transaction>
     <Transaction>2024/07/21 07:56:56.000.800,C:\Users\dev\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\git-repositories\delphi-controle-estoque\Estoque.dproj</Transaction>
     <Transaction>2024/07/21 08:39:56.000.120,=C:\git-repositories\delphi-controle-estoque\Unit1.pas</Transaction>
-    <Transaction>2024/07/21 08:41:37.000.621,C:\git-repositories\delphi-controle-estoque\Unit1.pas=C:\git-repositories\delphi-controle-estoque\UCriarEstrutura.pas</Transaction>
     <Transaction>2024/07/21 08:41:37.000.621,C:\git-repositories\delphi-controle-estoque\Unit1.dfm=C:\git-repositories\delphi-controle-estoque\UCriarEstrutura.dfm</Transaction>
+    <Transaction>2024/07/21 08:41:37.000.621,C:\git-repositories\delphi-controle-estoque\Unit1.pas=C:\git-repositories\delphi-controle-estoque\UCriarEstrutura.pas</Transaction>
     <Transaction>2024/07/21 10:28:07.519,=C:\git-repositories\delphi-controle-estoque\Unit1.pas</Transaction>
-    <Transaction>2024/07/21 10:28:34.503,C:\git-repositories\delphi-controle-estoque\UDM.pas=C:\git-repositories\delphi-controle-estoque\Unit1.pas</Transaction>
     <Transaction>2024/07/21 10:28:34.503,C:\git-repositories\delphi-controle-estoque\UDM.dfm=C:\git-repositories\delphi-controle-estoque\Unit1.dfm</Transaction>
+    <Transaction>2024/07/21 10:28:34.503,C:\git-repositories\delphi-controle-estoque\UDM.pas=C:\git-repositories\delphi-controle-estoque\Unit1.pas</Transaction>
+    <Transaction>2024/07/21 16:14:37.094,=C:\git-repositories\delphi-controle-estoque\Unit1.pas</Transaction>
+    <Transaction>2024/07/21 16:14:59.000,C:\git-repositories\delphi-controle-estoque\UCadastroProduto.dfm=C:\git-repositories\delphi-controle-estoque\Unit1.dfm</Transaction>
+    <Transaction>2024/07/21 16:14:59.000,C:\git-repositories\delphi-controle-estoque\UCadastroProduto.pas=C:\git-repositories\delphi-controle-estoque\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

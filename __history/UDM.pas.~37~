@@ -22,6 +22,10 @@ type
     procedure Conectar(ACaminhoBanco : string);
     procedure CriarEstrutura();
     procedure Execute(ASql : string);
+    procedure InserirProduto(ADescricao, ACodigoBarras: string);
+    procedure InserirLocal(ADescricao: string);
+    procedure InserirMovimentoProduto(
+      ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
   end;
 
 var
@@ -67,7 +71,7 @@ begin
 
   ASql := 'CREATE TABLE LOCAL(' +
           'CODIGO    INTEGER NOT NULL PRIMARY KEY,'+
-          'DESCRICAO VARCHAR(50) NOT NULL,'+
+          'DESCRICAO VARCHAR(50) NOT NULL'+
           ')';
   Execute(ASql);
 
@@ -88,6 +92,58 @@ begin
   begin
     SQL.Clear;
     SQL.Add(ASql);
+    ExecSQL;
+  end;
+end;
+
+procedure TDM.InserirLocal(ADescricao: string);
+  var ASql : string;
+begin
+  ASql := 'INSERT INTO LOCAL (DESCRICAO) VALUES (:descricao)';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('descricao').AsString := ADescricao;
+    ExecSQL;
+  end;
+end;
+
+procedure TDM.InserirMovimentoProduto(ACodigoProduto, ALocalOrigem,
+  ALocalDestino: Integer; AQuantidade: Double);
+  var ASql : string;
+begin
+  ASql := 'INSERT INTO MOVIMENTO_PRODUTO (' +
+          'COD_PRODUTO, COD_LOCAL_ORIGEM, COD_LOCAL_DESTINO, QUANTIDADE' +
+          ')' +
+          'VALUES (:cod_produto, :cod_local_origem, :cod_local_destino,' +
+          ' :quantidade )';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('cod_produto').AsInteger := ACodigoProduto;
+    ParamByName('cod_local_origem').AsInteger := ALocalOrigem;
+    ParamByName('cod_local_destino').AsInteger := ALocalDestino;
+    ParamByName('quantidade').AsFloat := AQuantidade;
+    ExecSQL;
+  end;
+end;
+
+procedure TDM.InserirProduto(ADescricao, ACodigoBarras: string);
+  var ASql : string;
+begin
+  ASql := 'INSERT INTO PRODUTO (DESCRICAO, CODIGO_BARRAS) ' +
+          'VALUES (:descricao, :codigo_barras)';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('descricao').AsString := ADescricao;
+    ParamByName('codigo_barras').AsString := ACodigoBarras;
     ExecSQL;
   end;
 end;

@@ -90,6 +90,7 @@ procedure TDM.Execute(ASql: string);
 begin
   with QryComum do
   begin
+    Close;
     SQL.Clear;
     SQL.Add(ASql);
     ExecSQL;

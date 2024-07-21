@@ -22,7 +22,6 @@ object FrmPrincipal: TFrmPrincipal
       Caption = 'Cadastros'
       object Produto1: TMenuItem
         Caption = 'Produto'
-        OnClick = Produto1Click
       end
       object Local1: TMenuItem
         Caption = 'Local'
