@@ -37,7 +37,6 @@ type
     procedure SetStatusBotoes(AStatus : Integer);
     procedure LimparCampos();
     function FormularioValido: Boolean;
-    procedure Gravar(ACodigo : string);
   end;
 
 var
@@ -60,9 +59,6 @@ procedure TFrmCadastroProduto.BtnExcluirClick(Sender: TObject);
 begin
   if Application.MessageBox('Tem Certeza?', 'excluir?',MB_YESNO) = ID_YES then
   begin
-
-    DM.QryProdutos.Close;
-    DM.QryProdutos.Open();
     SetStatusBotoes(1);
     LimparCampos;
   end;
@@ -73,9 +69,6 @@ procedure TFrmCadastroProduto.BtnGravarClick(Sender: TObject);
 begin
   if FormularioValido then
   begin
-    Gravar(LblCodigo.Caption);
-    DM.QryProdutos.Close;
-    DM.QryProdutos.Open();
     SetStatusBotoes(1);
     LimparCampos;
     PnlCadastro.Enabled := False;
@@ -103,7 +96,6 @@ end;
 procedure TFrmCadastroProduto.FormShow(Sender: TObject);
 begin
   SetStatusBotoes(1);
-  DM.QryProdutos.Open();
 end;
 
 function TFrmCadastroProduto.FormularioValido: Boolean;
@@ -112,14 +104,6 @@ begin
     Result:= True
   else
     Result := False;
-end;
-
-procedure TFrmCadastroProduto.Gravar(ACodigo: string);
-begin
-  if(ACodigo = '0') then
-    DM.InserirProduto(EdtDescricao.Text, EdtCodigoBarras.Text )
-  else
-    //DM.AlterarProduto(LblCodigo.Caption,EdtDescricao.Text, EdtCodigoBarras.Text );
 end;
 
 procedure TFrmCadastroProduto.LimparCampos;

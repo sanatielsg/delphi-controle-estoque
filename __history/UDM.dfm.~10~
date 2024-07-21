@@ -24,6 +24,7 @@ object DM: TDM
     Top = 248
   end
   object QryProdutos: TFDQuery
+    Active = True
     Connection = Con
     SQL.Strings = (
       'SELECT * FROM PRODUTO')

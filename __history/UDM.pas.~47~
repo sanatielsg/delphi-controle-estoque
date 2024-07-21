@@ -150,18 +150,18 @@ end;
 
 procedure TDM.InserirProduto(ADescricao, ACodigoBarras: string);
   var ASql : string;
-      ANext : Integer;
+      Next : Integer;
 begin
   ASql := 'INSERT INTO PRODUTO (CODIGO, DESCRICAO, CODIGO_BARRAS) ' +
           'VALUES (:codigo, :descricao, :codigo_barras)';
 
-  ANext := NextSeq('SEQ_PRODUTO');
+  Next := NextSeq('SEQ_PRODUTO');
   with QryComum do
   begin
     Close;
     SQL.Clear;
     SQL.Add(ASql);
-    ParamByName('codigo').AsInteger := ANext;
+    ParamByName('codigo').AsInteger := Next;
     ParamByName('descricao').AsString := ADescricao;
     ParamByName('codigo_barras').AsString := ACodigoBarras;
     ExecSQL;

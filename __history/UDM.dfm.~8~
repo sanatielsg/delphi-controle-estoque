@@ -27,8 +27,8 @@ object DM: TDM
     Connection = Con
     SQL.Strings = (
       'SELECT * FROM PRODUTO')
-    Left = 256
-    Top = 152
+    Left = 248
+    Top = 176
     object QryProdutosCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Origin = 'CODIGO'
@@ -46,10 +46,5 @@ object DM: TDM
       Origin = 'CODIGO_BARRAS'
       Size = 14
     end
-  end
-  object DSProdutos: TDataSource
-    DataSet = QryProdutos
-    Left = 288
-    Top = 216
   end
 end
