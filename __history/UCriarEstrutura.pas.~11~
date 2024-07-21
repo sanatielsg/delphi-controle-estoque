@@ -37,13 +37,8 @@ end;
 
 procedure TFrmCriarEstrutura.CriarEstrutura;
 begin
-  MmoStatus.Lines.Clear;
-  MmoStatus.Lines.Add('Conectando...');
   DM.Conectar(EdtCaminhoBanco.Text);
-  MmoStatus.Lines.Add('Conectado!');
-  MmoStatus.Lines.Add('Criando estruturas...');
   DM.CriarEstrutura;
-  MmoStatus.Lines.Add('Estruturas criadas!');
 end;
 
 procedure TFrmCriarEstrutura.FormClose(Sender: TObject;

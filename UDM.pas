@@ -21,6 +21,7 @@ type
     { Public declarations }
     procedure Conectar(ACaminhoBanco : string);
     procedure CriarEstrutura();
+    procedure Execute(ASql : string);
   end;
 
 var
@@ -46,7 +47,7 @@ begin
     begin
       Clear;
       Add('DriverID=FB');
-      Add('Database=C:\database\ESTOQUE.FDB');
+      Add('Database='+ACaminhoBanco);
       Add('User_Name=SYSDBA');
       Add('Password=masterkey');
     end;
@@ -62,13 +63,33 @@ begin
           'DESCRICAO     VARCHAR(100) NOT NULL,' +
           'CODIGO_BARRAS VARCHAR(14)' +
           ')';
+  Execute(ASql);
+
+  ASql := 'CREATE TABLE LOCAL(' +
+          'CODIGO    INTEGER NOT NULL PRIMARY KEY,'+
+          'DESCRICAO VARCHAR(50) NOT NULL'+
+          ')';
+  Execute(ASql);
+
+  ASql := 'CREATE TABLE MOVIMENTO_PRODUTO(' +
+          'CODIGO            INTEGER NOT NULL PRIMARY KEY,'+
+          'COD_PRODUTO       INTEGER NOT NULL,'+
+          'COD_LOCAL_ORIGEM  INTEGER NOT NULL,' +
+          'COD_LOCAL_DESTINO INTEGER NOT NULL,' +
+          'QUANTIDADE        NUMERIC(15,3) NOT NULL,' +
+          'DATA_HORA         TIMESTAMP DEFAULT CURRENT_TIMESTAMP' +
+          ')';
+  Execute(ASql);
+end;
+
+procedure TDM.Execute(ASql: string);
+begin
   with QryComum do
   begin
     SQL.Clear;
     SQL.Add(ASql);
     ExecSQL;
   end;
-
 end;
 
 end.

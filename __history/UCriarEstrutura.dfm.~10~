@@ -28,7 +28,6 @@ object FrmCriarEstrutura: TFrmCriarEstrutura
     Width = 362
     Height = 21
     TabOrder = 0
-    Text = 'C:\database\ESTOQUE.FDB'
   end
   object BtnDialog: TButton
     Left = 376
