@@ -29,6 +29,7 @@ type
     procedure BtnGravarClick(Sender: TObject);
     procedure BtnCancelarClick(Sender: TObject);
     procedure DBGConsultaDblClick(Sender: TObject);
+    procedure BtnExcluirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -50,6 +51,15 @@ procedure TFrmCadastroProduto.BtnCancelarClick(Sender: TObject);
 begin
   SetStatusBotoes(1);
   LimparCampos;
+end;
+
+procedure TFrmCadastroProduto.BtnExcluirClick(Sender: TObject);
+begin
+  if Application.MessageBox('Tem Certeza?', 'excluir?',MB_YESNO) = ID_YES then
+  begin
+    SetStatusBotoes(1);
+    LimparCampos;
+  end;
 end;
 
 procedure TFrmCadastroProduto.BtnGravarClick(Sender: TObject);

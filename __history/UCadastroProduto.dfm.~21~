@@ -23,7 +23,10 @@
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 61
+    ExplicitLeft = 40
+    ExplicitTop = 72
+    ExplicitWidth = 425
+    ExplicitHeight = 193
     object TabSheet1: TTabSheet
       Caption = 'Cadastro'
       ExplicitLeft = 20
