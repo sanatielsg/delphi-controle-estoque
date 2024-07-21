@@ -44,7 +44,6 @@ object FrmCriarEstrutura: TFrmCriarEstrutura
     Height = 25
     Caption = 'Executar Cria'#231#227'o'
     TabOrder = 2
-    OnClick = BtnExecutarClick
   end
   object MmoStatus: TMemo
     Left = 8

@@ -6,15 +6,18 @@ uses
   System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
-  Data.DB, FireDAC.Comp.Client;
+  Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FBDef, FireDAC.Phys.IBBase,
+  FireDAC.Phys.FB;
 
 type
   TDM = class(TDataModule)
     Con: TFDConnection;
+    FDPhysFBDriverLink: TFDPhysFBDriverLink;
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure Conectar(ACaminhoBanco : string);
   end;
 
 var
@@ -25,5 +28,24 @@ implementation
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+{ TDM }
+
+
+
+{ TDM }
+
+procedure TDM.Conectar(ACaminhoBanco : string);
+begin
+  if(not Con.Connected) then
+  begin
+    with Con.Params do
+    begin
+      Clear;
+      Add('Database=C:\database\ESTOQUE.FDB')
+    end;
+    Con.Connected := True;
+  end;
+end;
 
 end.

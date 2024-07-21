@@ -7,14 +7,12 @@ uses
   FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
   Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FBDef, FireDAC.Phys.IBBase,
-  FireDAC.Phys.FB, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, FireDAC.Comp.DataSet;
+  FireDAC.Phys.FB;
 
 type
   TDM = class(TDataModule)
     Con: TFDConnection;
     FDPhysFBDriverLink: TFDPhysFBDriverLink;
-    QryComum: TFDQuery;
   private
     { Private declarations }
   public
@@ -55,19 +53,7 @@ begin
 end;
 
 procedure TDM.CriarEstrutura;
-  var ASql : string;
 begin
-  ASql := 'CREATE TABLE PRODUTO(' +
-          'CODIGO        INTEGER NOT NULL PRIMARY KEY,' +
-          'DESCRICAO     VARCHAR(100) NOT NULL,' +
-          'CODIGO_BARRAS VARCHAR(14)' +
-          ')';
-  with QryComum do
-  begin
-    SQL.Clear;
-    SQL.Add(ASql);
-    ExecSQL;
-  end;
 
 end;
 

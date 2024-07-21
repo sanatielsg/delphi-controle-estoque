@@ -58,8 +58,8 @@ procedure TDM.CriarEstrutura;
   var ASql : string;
 begin
   ASql := 'CREATE TABLE PRODUTO(' +
-          'CODIGO        INTEGER NOT NULL PRIMARY KEY,' +
-          'DESCRICAO     VARCHAR(100) NOT NULL,' +
+          'CODIGO INTEGER NOT NULL PRIMARY KEY,' +
+          'DESCRICAO VARCHAR(100) NOT NULL,' +
           'CODIGO_BARRAS VARCHAR(14)' +
           ')';
   with QryComum do

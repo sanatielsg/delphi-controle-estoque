@@ -37,8 +37,7 @@ end;
 
 procedure TFrmCriarEstrutura.CriarEstrutura;
 begin
-  DM.Conectar(EdtCaminhoBanco.Text);
-  DM.CriarEstrutura;
+  DM.Conectar('');
 end;
 
 procedure TFrmCriarEstrutura.FormClose(Sender: TObject;

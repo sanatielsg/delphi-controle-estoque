@@ -17,9 +17,4 @@ object DM: TDM
     Left = 88
     Top = 152
   end
-  object QryComum: TFDQuery
-    Connection = Con
-    Left = 152
-    Top = 248
-  end
 end

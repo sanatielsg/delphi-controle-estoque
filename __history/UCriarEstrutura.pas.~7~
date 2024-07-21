@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, UDM;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
 
 type
   TFrmCriarEstrutura = class(TForm)
@@ -15,12 +15,10 @@ type
     MmoStatus: TMemo;
     OpenDialog: TOpenDialog;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure BtnExecutarClick(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
-    procedure CriarEstrutura();
   end;
 
 var
@@ -29,17 +27,6 @@ var
 implementation
 
 {$R *.dfm}
-
-procedure TFrmCriarEstrutura.BtnExecutarClick(Sender: TObject);
-begin
-  CriarEstrutura();
-end;
-
-procedure TFrmCriarEstrutura.CriarEstrutura;
-begin
-  DM.Conectar(EdtCaminhoBanco.Text);
-  DM.CriarEstrutura;
-end;
 
 procedure TFrmCriarEstrutura.FormClose(Sender: TObject;
   var Action: TCloseAction);
