@@ -43,7 +43,6 @@ object FrmPrincipal: TFrmPrincipal
       Caption = 'Admin'
       object CriarEstruturas1: TMenuItem
         Caption = 'Criar Estruturas'
-        OnClick = CriarEstruturas1Click
       end
     end
   end

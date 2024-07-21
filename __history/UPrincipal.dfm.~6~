@@ -12,7 +12,6 @@ object FrmPrincipal: TFrmPrincipal
   Font.Style = []
   Menu = MainMenu
   OldCreateOrder = False
-  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object MainMenu: TMainMenu
@@ -43,7 +42,6 @@ object FrmPrincipal: TFrmPrincipal
       Caption = 'Admin'
       object CriarEstruturas1: TMenuItem
         Caption = 'Criar Estruturas'
-        OnClick = CriarEstruturas1Click
       end
     end
   end

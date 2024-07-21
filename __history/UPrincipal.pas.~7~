@@ -34,9 +34,8 @@ implementation
 
 procedure TFrmPrincipal.CriarEstruturas1Click(Sender: TObject);
 begin
-  FrmCriarEstrutura := TFrmCriarEstrutura.Create(Self);
-  FrmCriarEstrutura.ShowModal;
-  FrmCriarEstrutura := Nil;
+  if FrmCriarEstrutura = Nil then
+
 end;
 
 end.
