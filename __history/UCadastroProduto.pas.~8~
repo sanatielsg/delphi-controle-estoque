@@ -13,16 +13,15 @@ type
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
     Panel1: TPanel;
-    BtnNovo: TSpeedButton;
-    BtnGravar: TSpeedButton;
-    BtnCancelar: TSpeedButton;
-    BtnExcluir: TSpeedButton;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    SpeedButton4: TSpeedButton;
     PnlCadastro: TPanel;
     EdtDescricao: TEdit;
     Descrição: TLabel;
     Label1: TLabel;
     EdtCodigoBarras: TEdit;
-    LblCodigo: TLabel;
   private
     { Private declarations }
   public

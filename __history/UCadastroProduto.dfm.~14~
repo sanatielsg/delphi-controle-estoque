@@ -118,7 +118,6 @@
       Width = 61
       Height = 52
       Caption = 'Novo'
-      Enabled = False
     end
     object BtnGravar: TSpeedButton
       Left = 71
@@ -126,7 +125,6 @@
       Width = 61
       Height = 52
       Caption = 'Gravar'
-      Enabled = False
     end
     object BtnCancelar: TSpeedButton
       Left = 138
@@ -134,7 +132,6 @@
       Width = 61
       Height = 52
       Caption = 'Cancelar'
-      Enabled = False
     end
     object BtnExcluir: TSpeedButton
       Left = 205
@@ -142,7 +139,6 @@
       Width = 61
       Height = 52
       Caption = 'Excluir'
-      Enabled = False
     end
   end
 end

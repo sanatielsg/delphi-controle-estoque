@@ -22,7 +22,6 @@ type
     Descrição: TLabel;
     Label1: TLabel;
     EdtCodigoBarras: TEdit;
-    LblCodigo: TLabel;
   private
     { Private declarations }
   public

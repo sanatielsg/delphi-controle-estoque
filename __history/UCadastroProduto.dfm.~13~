@@ -46,35 +46,21 @@
         ExplicitHeight = 209
         object Descrição: TLabel
           Left = 16
-          Top = 53
+          Top = 13
           Width = 46
           Height = 13
           Caption = 'Descri'#231#227'o'
         end
         object Label1: TLabel
           Left = 16
-          Top = 101
+          Top = 61
           Width = 82
           Height = 13
           Caption = 'C'#243'digo de Barras'
         end
-        object LblCodigo: TLabel
-          Left = 16
-          Top = 8
-          Width = 17
-          Height = 39
-          Caption = '0'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -32
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          Visible = False
-        end
         object EdtDescricao: TEdit
           Left = 16
-          Top = 72
+          Top = 32
           Width = 449
           Height = 21
           MaxLength = 100
@@ -82,7 +68,7 @@
         end
         object EdtCodigoBarras: TEdit
           Left = 16
-          Top = 120
+          Top = 80
           Width = 137
           Height = 21
           MaxLength = 14
@@ -118,7 +104,6 @@
       Width = 61
       Height = 52
       Caption = 'Novo'
-      Enabled = False
     end
     object BtnGravar: TSpeedButton
       Left = 71
@@ -126,7 +111,6 @@
       Width = 61
       Height = 52
       Caption = 'Gravar'
-      Enabled = False
     end
     object BtnCancelar: TSpeedButton
       Left = 138
@@ -134,7 +118,6 @@
       Width = 61
       Height = 52
       Caption = 'Cancelar'
-      Enabled = False
     end
     object BtnExcluir: TSpeedButton
       Left = 205
@@ -142,7 +125,6 @@
       Width = 61
       Height = 52
       Caption = 'Excluir'
-      Enabled = False
     end
   end
 end
