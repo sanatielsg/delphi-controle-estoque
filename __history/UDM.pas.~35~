@@ -124,10 +124,8 @@ begin
     Close;
     SQL.Clear;
     SQL.Add(ASql);
-    ParamByName('cod_produto').AsInteger := ACodigoProduto;
-    ParamByName('cod_local_origem').AsInteger := ALocalOrigem;
-    ParamByName('cod_local_destino').AsInteger := ALocalDestino;
-    ParamByName('quantidade').AsFloat := AQuantidade;
+    ParamByName('descricao').AsString := ADescricao;
+    ParamByName('codigo_barras').AsString := ACodigoBarras;
     ExecSQL;
   end;
 end;

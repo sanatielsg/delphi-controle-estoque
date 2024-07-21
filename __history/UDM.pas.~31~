@@ -22,6 +22,10 @@ type
     procedure Conectar(ACaminhoBanco : string);
     procedure CriarEstrutura();
     procedure Execute(ASql : string);
+    procedure InserirProduto(ADescricao, ACodigoBarras: string);
+    procedure InserirLocal(ADescricao: string);
+    procedure InserirMovimentoProduto(
+      ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
   end;
 
 var
@@ -67,10 +71,19 @@ begin
 
   ASql := 'CREATE TABLE LOCAL(' +
           'CODIGO    INTEGER NOT NULL PRIMARY KEY,'+
-          'DESCRICAO VARCHAR(50) NOT NULL,'+
+          'DESCRICAO VARCHAR(50) NOT NULL'+
           ')';
   Execute(ASql);
 
+  ASql := 'CREATE TABLE MOVIMENTO_PRODUTO(' +
+          'CODIGO            INTEGER NOT NULL PRIMARY KEY,'+
+          'COD_PRODUTO       INTEGER NOT NULL,'+
+          'COD_LOCAL_ORIGEM  INTEGER NOT NULL,' +
+          'COD_LOCAL_DESTINO INTEGER NOT NULL,' +
+          'QUANTIDADE        NUMERIC(15,3) NOT NULL,' +
+          'DATA_HORA         TIMESTAMP DEFAULT CURRENT_TIMESTAMP' +
+          ')';
+  Execute(ASql);
 end;
 
 procedure TDM.Execute(ASql: string);
@@ -81,6 +94,31 @@ begin
     SQL.Add(ASql);
     ExecSQL;
   end;
+end;
+
+procedure TDM.InserirLocal(ADescricao: string);
+  var ASql : string;
+begin
+  ASql := 'INSERT INTO LOCAL (DESCRICAO) VALUES (:descricao)';
+  with QryComum do
+  begin
+
+
+
+
+    ExecSQL;
+  end;
+end;
+
+procedure TDM.InserirMovimentoProduto(ACodigoProduto, ALocalOrigem,
+  ALocalDestino: Integer; AQuantidade: Double);
+begin
+
+end;
+
+procedure TDM.InserirProduto(ADescricao, ACodigoBarras: string);
+begin
+
 end;
 
 end.
