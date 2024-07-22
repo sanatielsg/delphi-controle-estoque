@@ -21,9 +21,21 @@ type
     QryProdutosCODIGO_BARRAS: TStringField;
     DSProdutos: TDataSource;
     QryLocais: TFDQuery;
-    IntegerField1: TIntegerField;
-    StringField1: TStringField;
     DSLocais: TDataSource;
+    QryLocaisCODIGO: TIntegerField;
+    QryLocaisDESCRICAO: TStringField;
+    QryMovimentosEstoque: TFDQuery;
+    DSMovimentosEstoque: TDataSource;
+    QryMovimentosEstoqueCODIGO: TIntegerField;
+    QryMovimentosEstoqueCOD_PRODUTO: TIntegerField;
+    QryMovimentosEstoqueTIPO_MOVIMENTO: TIntegerField;
+    QryMovimentosEstoqueCOD_LOCAL_ORIGEM: TIntegerField;
+    QryMovimentosEstoqueCOD_LOCAL_DESTINO: TIntegerField;
+    QryMovimentosEstoqueQUANTIDADE: TFMTBCDField;
+    QryMovimentosEstoqueDATA_HORA: TSQLTimeStampField;
+    QryMovimentosEstoqueNOME_PRODUTO: TStringField;
+    QryMovimentosEstoqueNOME_LOCAL_ORIGEM: TStringField;
+    QryMovimentosEstoqueNOME_LOCAL_DESTINO: TStringField;
   private
     { Private declarations }
   public
@@ -44,6 +56,9 @@ type
     procedure AlterarLocal(ACodigo: Integer;  ADescricao: string);
     procedure ExcluirLocal(ACodigo : Integer);
 
+    function GetDescricaoProduto(ACodigo : Integer): string;
+    function GetDescricaoLocalOrigem(ACodigo : Integer): string;
+
   end;
 
 var
@@ -62,8 +77,18 @@ implementation
 { TDM }
 
 procedure TDM.AlterarLocal(ACodigo: Integer; ADescricao: string);
+  var ASql : string;
 begin
-
+  ASql := 'UPDATE LOCAL SET DESCRICAO = :descricao WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('descricao').AsString := ADescricao;
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
 end;
 
 procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
@@ -119,6 +144,7 @@ begin
   ASql := 'CREATE TABLE MOVIMENTO_PRODUTO(' +
           'CODIGO            INTEGER NOT NULL PRIMARY KEY,'+
           'COD_PRODUTO       INTEGER NOT NULL,'+
+          'TIPO_MOVIMENTO    INTEGER NOT NULL,' +
           'COD_LOCAL_ORIGEM  INTEGER NOT NULL,' +
           'COD_LOCAL_DESTINO INTEGER NOT NULL,' +
           'QUANTIDADE        NUMERIC(15,3) NOT NULL,' +
@@ -137,8 +163,17 @@ begin
 end;
 
 procedure TDM.ExcluirLocal(ACodigo: Integer);
+  var ASql : string;
 begin
-
+  ASql := 'DELETE FROM LOCAL WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
 end;
 
 procedure TDM.ExcluirProduto(ACodigo: Integer);
@@ -163,6 +198,20 @@ begin
     SQL.Clear;
     SQL.Add(ASql);
     ExecSQL;
+  end;
+end;
+
+function TDM.GetDescricaoProduto(ACodigo: Integer): string;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM PRODUTO WHERE CODIGO = :codigo');
+    ParamByName('codigo').AsInteger := ACodigo;
+    Open();
+    Result := FieldByName('DESCRICAO').AsString;
   end;
 end;
 

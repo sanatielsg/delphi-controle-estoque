@@ -1,4 +1,4 @@
-﻿object FrmMovimentarEstoque: TFrmMovimentarEstoque
+﻿object FrmCadastroLocal: TFrmCadastroLocal
   Left = 0
   Top = 0
   Caption = 'Cadastro de Locaiis'
@@ -73,7 +73,7 @@
         Top = 24
         Width = 481
         Height = 201
-        DataSource = DM.DSMovimentosEstoque
+        DataSource = DM.DSLocais
         Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
         ReadOnly = True
         TabOrder = 0
@@ -87,11 +87,20 @@
           item
             Expanded = False
             FieldName = 'CODIGO'
+            Title.Caption = 'C'#243'digo'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCRICAO'
+            Title.Caption = 'Descri'#231#227'o'
+            Width = 300
+            Visible = True
+          end
+          item
+            Expanded = False
+            FieldName = 'CODIGO_BARRAS'
+            Title.Caption = 'C'#243'digo de Barras'
             Visible = True
           end>
       end

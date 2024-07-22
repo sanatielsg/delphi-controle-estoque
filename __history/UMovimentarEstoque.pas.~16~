@@ -37,6 +37,7 @@ type
     procedure BtnCancelarClick(Sender: TObject);
     procedure DBGConsultaDblClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
+    procedure EdtCodigoProdutoExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -96,15 +97,31 @@ begin
   PageControl.ActivePageIndex := 0;
   SetStatusBotoes(2);
   PnlCadastro.Enabled := True;
-  EdtDescricao.SetFocus;
+  CbxTipoMovimentacao.SetFocus;
 end;
 
 procedure TFrmMovimentarEstoque.DBGConsultaDblClick(Sender: TObject);
 begin
   SetStatusBotoes(3);
   LblCodigo.Caption := DM.QryLocaisCODIGO.AsString;
-  EdtDescricao.Text := DM.QryLocaisDESCRICAO.AsString;
+
+  EdtCodigoProduto.Text := DM.QryMovimentosEstoqueCOD_PRODUTO.AsString;
+  CbxTipoMovimentacao.ItemIndex := DM.QryMovimentosEstoqueTIPO_MOVIMENTO.AsInteger;
+  EdtCodigoProduto.Text := DM.QryMovimentosEstoqueCOD_PRODUTO.AsString;
+  EdtDescricaoProduto.Text := DM.QryMovimentosEstoqueNOME_PRODUTO.AsString;
+  EdtCodigoLocalOrigem.Text :=  DM.QryMovimentosEstoqueCOD_LOCAL_ORIGEM.AsString;
+  EdtDescricaoLocalOrigem.Text := DM.QryMovimentosEstoqueNOME_LOCAL_ORIGEM.AsString;
+  EdtCodigoLocalDestino.Text :=  DM.QryMovimentosEstoqueCOD_LOCAL_DESTINO.AsString;
+  EdtDescricaoLocalDestino.Text := DM.QryMovimentosEstoqueNOME_LOCAL_DESTINO.AsString;
   PnlCadastro.Enabled := True;
+end;
+
+procedure TFrmMovimentarEstoque.EdtCodigoProdutoExit(Sender: TObject);
+begin
+  if(EdtCodigoProduto.Text <> '') then
+  begin
+   EdtDescricaoProduto.Text := DM.GetDescricaoProduto(StrToInt(EdtCodigoProduto.Text));
+  end;
 end;
 
 procedure TFrmMovimentarEstoque.FormShow(Sender: TObject);
@@ -115,23 +132,23 @@ end;
 
 function TFrmMovimentarEstoque.FormularioValido: Boolean;
 begin
-  if EdtDescricao.Text <> '' then
-    Result:= True
-  else
-    Result := False;
+//  if EdtDescricao.Text <> '' then
+//    Result:= True
+//  else
+//    Result := False;
 end;
 
 procedure TFrmMovimentarEstoque.Gravar(ACodigo: string);
 begin
-  if(ACodigo = '0') then
-    DM.InserirLocal(EdtDescricao.Text)
-  else
-    DM.AlterarLocal( StrToInt(LblCodigo.Caption),EdtDescricao.Text);
+//  if(ACodigo = '0') then
+//    DM.InserirLocal(EdtDescricao.Text)
+//  else
+//    DM.AlterarLocal( StrToInt(LblCodigo.Caption),EdtDescricao.Text);
 end;
 
 procedure TFrmMovimentarEstoque.LimparCampos;
 begin
-  EdtDescricao.Text := '';
+//  EdtDescricao.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.SetStatusBotoes(AStatus: Integer);

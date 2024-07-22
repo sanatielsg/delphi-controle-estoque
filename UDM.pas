@@ -57,6 +57,7 @@ type
     procedure ExcluirLocal(ACodigo : Integer);
 
     function GetDescricaoProduto(ACodigo : Integer): string;
+    function GetDescricaoLocalOrigem(ACodigo : Integer): string;
 
   end;
 
@@ -197,6 +198,20 @@ begin
     SQL.Clear;
     SQL.Add(ASql);
     ExecSQL;
+  end;
+end;
+
+function TDM.GetDescricaoLocalOrigem(ACodigo: Integer): string;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM LOCAL WHERE CODIGO = :codigo');
+    ParamByName('codigo').AsInteger := ACodigo;
+    Open();
+    Result := FieldByName('DESCRICAO').AsString;
   end;
 end;
 

@@ -38,6 +38,7 @@ type
     procedure DBGConsultaDblClick(Sender: TObject);
     procedure BtnExcluirClick(Sender: TObject);
     procedure EdtCodigoProdutoExit(Sender: TObject);
+    procedure EdtCodigoLocalOrigemExit(Sender: TObject);
   private
     { Private declarations }
   public
@@ -116,11 +117,21 @@ begin
   PnlCadastro.Enabled := True;
 end;
 
+procedure TFrmMovimentarEstoque.EdtCodigoLocalOrigemExit(Sender: TObject);
+begin
+  if(EdtCodigoLocalOrigem.Text <> '') then
+  begin
+    EdtDescricaoLocalOrigem.Text :=
+      DM.GetDescricaoLocalOrigem(StrToInt(EdtCodigoLocalOrigem.Text));
+  end;
+end;
+
 procedure TFrmMovimentarEstoque.EdtCodigoProdutoExit(Sender: TObject);
 begin
   if(EdtCodigoProduto.Text <> '') then
   begin
-   EdtDescricaoProduto.Text := DM.GetDescricaoProduto(StrToInt(EdtCodigoProduto.Text));
+   EdtDescricaoProduto.Text := DM.GetDescricaoProduto(
+    StrToInt(EdtCodigoProduto.Text));
   end;
 end;
 

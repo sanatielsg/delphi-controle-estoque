@@ -87,20 +87,11 @@
           item
             Expanded = False
             FieldName = 'CODIGO'
-            Title.Caption = 'C'#243'digo'
             Visible = True
           end
           item
             Expanded = False
             FieldName = 'DESCRICAO'
-            Title.Caption = 'Descri'#231#227'o'
-            Width = 300
-            Visible = True
-          end
-          item
-            Expanded = False
-            FieldName = 'CODIGO_BARRAS'
-            Title.Caption = 'C'#243'digo de Barras'
             Visible = True
           end>
       end
