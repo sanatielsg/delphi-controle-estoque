@@ -44,9 +44,9 @@ end;
 
 procedure TFrmPrincipal.Local1Click(Sender: TObject);
 begin
-  FrmCadastroLocal := TFrmCadastroLocal.Create(Self);
-  FrmCadastroLocal.ShowModal;
-  FrmCadastroLocal := Nil;
+  FrmCadastroProduto := TFrmCadastroProduto.Create(Self);
+  FrmCadastroProduto.ShowModal;
+  FrmCadastroProduto := Nil;
 end;
 
 procedure TFrmPrincipal.Produto1Click(Sender: TObject);

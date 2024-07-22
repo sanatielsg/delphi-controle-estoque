@@ -5,8 +5,7 @@ uses
   UPrincipal in 'UPrincipal.pas' {FrmPrincipal},
   UCriarEstrutura in 'UCriarEstrutura.pas' {FrmCriarEstrutura},
   UDM in 'UDM.pas' {DM: TDataModule},
-  UCadastroProduto in 'UCadastroProduto.pas' {FrmCadastroProduto},
-  UCadastroLocal in 'UCadastroLocal.pas' {FrmCadastroLocal};
+  UCadastroProduto in 'UCadastroProduto.pas' {FrmCadastroProduto};
 
 {$R *.res}
 
@@ -17,6 +16,5 @@ begin
   Application.CreateForm(TFrmCriarEstrutura, FrmCriarEstrutura);
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TFrmCadastroProduto, FrmCadastroProduto);
-  Application.CreateForm(TFrmCadastroLocal, FrmCadastroLocal);
   Application.Run;
 end.

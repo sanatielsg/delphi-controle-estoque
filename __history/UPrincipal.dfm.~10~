@@ -26,7 +26,6 @@ object FrmPrincipal: TFrmPrincipal
       end
       object Local1: TMenuItem
         Caption = 'Local'
-        OnClick = Local1Click
       end
     end
     object Movimentao1: TMenuItem

@@ -58,17 +58,17 @@ object DM: TDM
       'SELECT * FROM LOCAL')
     Left = 392
     Top = 176
-    object QryLocaisCODIGO: TIntegerField
+    object IntegerField1: TIntegerField
       FieldName = 'CODIGO'
       Origin = 'CODIGO'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object QryLocaisDESCRICAO: TStringField
+    object StringField1: TStringField
       FieldName = 'DESCRICAO'
       Origin = 'DESCRICAO'
       Required = True
-      Size = 50
+      Size = 100
     end
   end
   object DSLocais: TDataSource

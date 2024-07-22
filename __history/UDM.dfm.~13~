@@ -8,7 +8,6 @@ object DM: TDM
       'Password=masterkey'
       'User_Name=SYSDBA'
       'Database=C:\database\ESTOQUE.FDB')
-    Connected = True
     LoginPrompt = False
     Left = 64
     Top = 80
@@ -51,29 +50,5 @@ object DM: TDM
     DataSet = QryProdutos
     Left = 288
     Top = 216
-  end
-  object QryLocais: TFDQuery
-    Connection = Con
-    SQL.Strings = (
-      'SELECT * FROM LOCAL')
-    Left = 392
-    Top = 176
-    object QryLocaisCODIGO: TIntegerField
-      FieldName = 'CODIGO'
-      Origin = 'CODIGO'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Required = True
-    end
-    object QryLocaisDESCRICAO: TStringField
-      FieldName = 'DESCRICAO'
-      Origin = 'DESCRICAO'
-      Required = True
-      Size = 50
-    end
-  end
-  object DSLocais: TDataSource
-    DataSet = QryLocais
-    Left = 400
-    Top = 256
   end
 end

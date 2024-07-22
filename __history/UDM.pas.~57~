@@ -20,6 +20,10 @@ type
     QryProdutosDESCRICAO: TStringField;
     QryProdutosCODIGO_BARRAS: TStringField;
     DSProdutos: TDataSource;
+    QryLocais: TFDQuery;
+    IntegerField1: TIntegerField;
+    StringField1: TStringField;
+    DSLocais: TDataSource;
   private
     { Private declarations }
   public
@@ -27,11 +31,19 @@ type
     procedure Conectar(ACaminhoBanco : string);
     procedure CriarEstrutura();
     procedure Execute(ASql : string);
+    function NextSeq(ASequence : string) : Integer;
+
     procedure InserirProduto(ADescricao, ACodigoBarras: string);
-    procedure InserirLocal(ADescricao: string);
+    procedure AlterarProduto(ACodigo: Integer;  ADescricao, ACodigoBarras: string);
+    procedure ExcluirProduto(ACodigo : Integer);
+
     procedure InserirMovimentoProduto(
       ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
-    function NextSeq(ASequence : string) : Integer;
+
+    procedure InserirLocal(ADescricao: string);
+    procedure AlterarLocal(ACodigo: Integer;  ADescricao: string);
+    procedure ExcluirLocal(ACodigo : Integer);
+
   end;
 
 var
@@ -48,6 +60,29 @@ implementation
 
 
 { TDM }
+
+procedure TDM.AlterarLocal(ACodigo: Integer; ADescricao: string);
+begin
+
+end;
+
+procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
+  ACodigoBarras: string);
+  var ASql : string;
+begin
+  ASql := 'UPDATE PRODUTO SET DESCRICAO = :descricao, ' +
+  'CODIGO_BARRAS = :codigo_barras WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('descricao').AsString := ADescricao;
+    ParamByName('codigo_barras').AsString := ACodigoBarras;
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
+end;
 
 procedure TDM.Conectar(ACaminhoBanco : string);
 begin
@@ -90,6 +125,34 @@ begin
           'DATA_HORA         TIMESTAMP DEFAULT CURRENT_TIMESTAMP' +
           ')';
   Execute(ASql);
+
+  ASql := 'create sequence SEQ_PRODUTO';
+  Execute(ASql);
+
+  ASql := 'create sequence SEQ_LOCAL';
+  Execute(ASql);
+
+  ASql := 'create sequence SEQ_MOVIMENTO_PRODUTO';
+  Execute(ASql);
+end;
+
+procedure TDM.ExcluirLocal(ACodigo: Integer);
+begin
+
+end;
+
+procedure TDM.ExcluirProduto(ACodigo: Integer);
+  var ASql : string;
+begin
+  ASql := 'DELETE FROM PRODUTO WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
 end;
 
 procedure TDM.Execute(ASql: string);
@@ -105,13 +168,16 @@ end;
 
 procedure TDM.InserirLocal(ADescricao: string);
   var ASql : string;
+      ANext : Integer;
 begin
-  ASql := 'INSERT INTO LOCAL (DESCRICAO) VALUES (:descricao)';
+  ASql := 'INSERT INTO LOCAL (CODIGO, DESCRICAO) VALUES (:codigo, :descricao)';
+  ANext := NextSeq('SEQ_LOCAL');
   with QryComum do
   begin
     Close;
     SQL.Clear;
     SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ANext;
     ParamByName('descricao').AsString := ADescricao;
     ExecSQL;
   end;
@@ -141,15 +207,18 @@ end;
 
 procedure TDM.InserirProduto(ADescricao, ACodigoBarras: string);
   var ASql : string;
+      ANext : Integer;
 begin
   ASql := 'INSERT INTO PRODUTO (CODIGO, DESCRICAO, CODIGO_BARRAS) ' +
           'VALUES (:codigo, :descricao, :codigo_barras)';
+
+  ANext := NextSeq('SEQ_PRODUTO');
   with QryComum do
   begin
     Close;
     SQL.Clear;
     SQL.Add(ASql);
-    ParamByName('codigo').AsInteger := NextSeq('PRODUTO');
+    ParamByName('codigo').AsInteger := ANext;
     ParamByName('descricao').AsString := ADescricao;
     ParamByName('codigo_barras').AsString := ACodigoBarras;
     ExecSQL;
@@ -159,8 +228,14 @@ end;
 function TDM.NextSeq(ASequence: string): Integer;
   var ASql : string;
 begin
-
-
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('select GEN_ID('+ASequence+', 1) as SEQ from RDB$DATABASE');
+    Open();
+    Result := FieldByName('SEQ').AsInteger;
+  end;
 end;
 
 end.
