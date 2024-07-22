@@ -55,6 +55,11 @@ type
 var
   FrmMovimentarEstoque: TFrmMovimentarEstoque;
 
+const
+  MOV_LOCAIS = 0;
+  MOV_ENTRADA = 1;
+  MOV_SAIDA = 2;
+
 implementation
 
 {$R *.dfm}
@@ -91,9 +96,7 @@ begin
     SetStatusBotoes(1);
     LimparCampos;
     PnlCadastro.Enabled := False;
-  end
-  else
-  ShowMessage('Preenchimento Inválido!');
+  end;
 end;
 
 procedure TFrmMovimentarEstoque.BtnNovoClick(Sender: TObject);
@@ -127,7 +130,7 @@ begin
   begin
     EdtDescricaoLocalDestino.Text :=
       DM.GetDescricaoLocal(StrToInt(EdtCodigoLocalDestino.Text));
-  end;
+  end else EdtDescricaoLocalDestino.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.EdtCodigoLocalOrigemExit(Sender: TObject);
@@ -136,7 +139,7 @@ begin
   begin
     EdtDescricaoLocalOrigem.Text :=
       DM.GetDescricaoLocal(StrToInt(EdtCodigoLocalOrigem.Text));
-  end;
+  end else EdtDescricaoLocalOrigem.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.EdtCodigoProdutoExit(Sender: TObject);
@@ -145,7 +148,7 @@ begin
   begin
    EdtDescricaoProduto.Text := DM.GetDescricaoProduto(
     StrToInt(EdtCodigoProduto.Text));
-  end;
+  end else EdtDescricaoProduto.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.FormShow(Sender: TObject);
@@ -156,42 +159,76 @@ end;
 
 function TFrmMovimentarEstoque.FormularioValido: Boolean;
 begin
-//  if EdtDescricao.Text <> '' then
-//    Result:= True
-//  else
-//    Result := False;
+  if (EdtCodigoProduto.Text = '') or (EdtQuantidade.Text = '') then
+  begin
+    ShowMessage('Preenchimento Inválido!');
+    Result := False;
+  end else
+  if (CbxTipoMovimentacao.ItemIndex = MOV_LOCAIS) then
+  begin
+    if (EdtCodigoLocalOrigem.Text = '') or (EdtCodigoLocalDestino.Text = '') then
+    begin
+      ShowMessage('Origem e Destino Devem Ser Preenchidos!');
+      Result := False;
+    end else Result := True;
+  end
+  else if CbxTipoMovimentacao.ItemIndex = MOV_SAIDA then
+  begin
+    if EdtCodigoLocalOrigem.Text = '' then
+    begin
+      ShowMessage('Local de Origem deve Ser Informado!');
+      Result := False;
+    end else Result := True;
+  end
+  else if CbxTipoMovimentacao.ItemIndex = MOV_ENTRADA then
+    if EdtCodigoLocalDestino.Text = '' then
+    begin
+      ShowMessage('Local de Destino deve Ser Informado!');
+      Result := False;
+    end else Result := True
+  else
+    Result := True;
 end;
 
 procedure TFrmMovimentarEstoque.Gravar(ACodigo: string);
   var ALocalOrigem, ALocalDestino : Integer;
 begin
-  if CbxTipoMovimentacao.ItemIndex = 0 then
-  begin
-    ALocalOrigem := StrToInt(EdtCodigoLocalOrigem.Text);
-    ALocalDestino := StrToInt(EdtCodigoLocalDestino.Text);
-  end else
-  begin
-    ALocalOrigem := 0;
-    ALocalDestino := 0;
-  end;
+  if(FormularioValido) then
+    begin
+      if CbxTipoMovimentacao.ItemIndex = MOV_LOCAIS then
+    begin
+      ALocalOrigem := StrToInt(EdtCodigoLocalOrigem.Text);
+      ALocalDestino := StrToInt(EdtCodigoLocalDestino.Text);
+    end else
+    if CbxTipoMovimentacao.ItemIndex = MOV_ENTRADA then
+    begin
+      ALocalOrigem := 0;
+      ALocalDestino := StrToInt(EdtCodigoLocalDestino.Text);
+    end else
+    if CbxTipoMovimentacao.ItemIndex = MOV_SAIDA then
+    begin
+      ALocalOrigem := StrToInt(EdtCodigoLocalOrigem.Text);
+      ALocalDestino := 0;
+    end;
 
-  if(ACodigo = '0') then
-    DM.InserirMovimentacaoEstoque(
-      CbxTipoMovimentacao.ItemIndex,
-      StrToInt(EdtCodigoProduto.Text),
-      ALocalOrigem,
-      ALocalDestino,
-      StrToFloat(EdtQuantidade.Text)
-    )
-  else
-    DM.AlterarMovimentacaoEstoque(
-      StrToInt(LblCodigo.Caption),
-      CbxTipoMovimentacao.ItemIndex,
-      StrToInt(EdtCodigoProduto.Text),
-      ALocalOrigem,
-      ALocalDestino,
-      StrToFloat(EdtQuantidade.Text)
-    );
+    if(ACodigo = '0') then
+      DM.InserirMovimentacaoEstoque(
+        CbxTipoMovimentacao.ItemIndex,
+        StrToInt(EdtCodigoProduto.Text),
+        ALocalOrigem,
+        ALocalDestino,
+        StrToFloat(EdtQuantidade.Text)
+      )
+    else
+      DM.AlterarMovimentacaoEstoque(
+        StrToInt(LblCodigo.Caption),
+        CbxTipoMovimentacao.ItemIndex,
+        StrToInt(EdtCodigoProduto.Text),
+        ALocalOrigem,
+        ALocalDestino,
+        StrToFloat(EdtQuantidade.Text)
+      );
+  end;
 end;
 
 procedure TFrmMovimentarEstoque.LimparCampos;

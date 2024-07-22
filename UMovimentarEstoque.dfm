@@ -101,6 +101,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Top = 117
           Width = 346
           Height = 21
+          ReadOnly = True
           TabOrder = 1
         end
         object CbxTipoMovimentacao: TComboBox
@@ -132,6 +133,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Top = 165
           Width = 346
           Height = 21
+          ReadOnly = True
           TabOrder = 4
         end
         object EdtCodigoLocalDestino: TEdit
@@ -148,6 +150,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Top = 213
           Width = 346
           Height = 21
+          ReadOnly = True
           TabOrder = 6
         end
         object EdtQuantidade: TEdit
@@ -251,7 +254,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
     end
     object BtnGravar: TSpeedButton
       Left = 71
-      Top = 3
+      Top = 0
       Width = 61
       Height = 52
       Caption = 'Gravar'

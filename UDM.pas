@@ -84,7 +84,7 @@ implementation
 procedure TDM.AlterarLocal(ACodigo: Integer; ADescricao: string);
   var ASql : string;
 begin
-  ASql := 'UPDATE LOCAL SET DESCRICAO = :descricao WHERE CODIGO = :codigo ';
+  ASql := ' UPDATE LOCAL SET DESCRICAO = :descricao WHERE CODIGO = :codigo ';
   with QryComum do
   begin
     Close;
@@ -98,16 +98,36 @@ end;
 
 procedure TDM.AlterarMovimentacaoEstoque(ACodigo, ATipoMovimentacao,
   ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
+  var ASql : string;
 begin
-
+  ASql := ' UPDATE MOVIMENTO_PRODUTO SET ' +
+          ' TIPO_MOVIMENTO = :tipo_movimento, ' +
+          ' COD_PRODUTO = :cod_produto, ' +
+          ' COD_LOCAL_ORIGEM = :cod_local_origem, ' +
+          ' COD_LOCAL_DESTINO = :cod_local_destino, ' +
+          ' QUANTIDADE = :quantidade ' +
+          ' WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ACodigo;
+    ParamByName('tipo_movimento').AsInteger := ATipoMovimentacao;
+    ParamByName('cod_produto').AsInteger := ACodigoProduto;
+    ParamByName('cod_local_origem').AsInteger := ALocalOrigem;
+    ParamByName('cod_local_destino').AsInteger := ALocalDestino;
+    ParamByName('quantidade').AsFloat := AQuantidade;
+    ExecSQL;
+  end;
 end;
 
 procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
   ACodigoBarras: string);
   var ASql : string;
 begin
-  ASql := 'UPDATE PRODUTO SET DESCRICAO = :descricao, ' +
-  'CODIGO_BARRAS = :codigo_barras WHERE CODIGO = :codigo ';
+  ASql := ' UPDATE PRODUTO SET DESCRICAO = :descricao, ' +
+  ' CODIGO_BARRAS = :codigo_barras WHERE CODIGO = :codigo ';
   with QryComum do
   begin
     Close;
@@ -139,28 +159,28 @@ end;
 procedure TDM.CriarEstrutura;
   var ASql : string;
 begin
-  ASql := 'CREATE TABLE PRODUTO(' +
-          'CODIGO        INTEGER NOT NULL PRIMARY KEY,' +
-          'DESCRICAO     VARCHAR(100) NOT NULL,' +
-          'CODIGO_BARRAS VARCHAR(14)' +
-          ')';
+  ASql := ' CREATE TABLE PRODUTO( ' +
+          ' CODIGO        INTEGER NOT NULL PRIMARY KEY, ' +
+          ' DESCRICAO     VARCHAR(100) NOT NULL, ' +
+          ' CODIGO_BARRAS VARCHAR(14) ' +
+          ' )';
   Execute(ASql);
 
-  ASql := 'CREATE TABLE LOCAL(' +
-          'CODIGO    INTEGER NOT NULL PRIMARY KEY,'+
-          'DESCRICAO VARCHAR(50) NOT NULL'+
-          ')';
+  ASql := ' CREATE TABLE LOCAL( ' +
+          ' CODIGO    INTEGER NOT NULL PRIMARY KEY, '+
+          ' DESCRICAO VARCHAR(50) NOT NULL '+
+          ' )';
   Execute(ASql);
 
-  ASql := 'CREATE TABLE MOVIMENTO_PRODUTO(' +
-          'CODIGO            INTEGER NOT NULL PRIMARY KEY,'+
-          'COD_PRODUTO       INTEGER NOT NULL,'+
-          'TIPO_MOVIMENTO    INTEGER NOT NULL,' +
-          'COD_LOCAL_ORIGEM  INTEGER NOT NULL,' +
-          'COD_LOCAL_DESTINO INTEGER NOT NULL,' +
-          'QUANTIDADE        NUMERIC(15,3) NOT NULL,' +
-          'DATA_HORA         TIMESTAMP DEFAULT CURRENT_TIMESTAMP' +
-          ')';
+  ASql := ' CREATE TABLE MOVIMENTO_PRODUTO(' +
+          ' CODIGO            INTEGER NOT NULL PRIMARY KEY,'+
+          ' COD_PRODUTO       INTEGER NOT NULL,'+
+          ' TIPO_MOVIMENTO    INTEGER NOT NULL,' +
+          ' COD_LOCAL_ORIGEM  INTEGER NOT NULL,' +
+          ' COD_LOCAL_DESTINO INTEGER NOT NULL,' +
+          ' QUANTIDADE        NUMERIC(15,3) NOT NULL,' +
+          ' DATA_HORA         TIMESTAMP DEFAULT CURRENT_TIMESTAMP' +
+          ' )';
   Execute(ASql);
 
   ASql := 'create sequence SEQ_PRODUTO';
@@ -176,7 +196,7 @@ end;
 procedure TDM.ExcluirLocal(ACodigo: Integer);
   var ASql : string;
 begin
-  ASql := 'DELETE FROM LOCAL WHERE CODIGO = :codigo ';
+  ASql := ' DELETE FROM LOCAL WHERE CODIGO = :codigo ';
   with QryComum do
   begin
     Close;
@@ -190,7 +210,7 @@ end;
 procedure TDM.ExcluirProduto(ACodigo: Integer);
   var ASql : string;
 begin
-  ASql := 'DELETE FROM PRODUTO WHERE CODIGO = :codigo ';
+  ASql := ' DELETE FROM PRODUTO WHERE CODIGO = :codigo ';
   with QryComum do
   begin
     Close;
@@ -219,7 +239,7 @@ begin
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT DESCRICAO FROM LOCAL WHERE CODIGO = :codigo');
+    SQL.Add(' SELECT DESCRICAO FROM LOCAL WHERE CODIGO = :codigo ');
     ParamByName('codigo').AsInteger := ACodigo;
     Open();
     Result := FieldByName('DESCRICAO').AsString;
@@ -233,7 +253,7 @@ begin
   begin
     Close;
     SQL.Clear;
-    SQL.Add('SELECT DESCRICAO FROM PRODUTO WHERE CODIGO = :codigo');
+    SQL.Add(' SELECT DESCRICAO FROM PRODUTO WHERE CODIGO = :codigo ');
     ParamByName('codigo').AsInteger := ACodigo;
     Open();
     Result := FieldByName('DESCRICAO').AsString;
@@ -244,7 +264,7 @@ procedure TDM.InserirLocal(ADescricao: string);
   var ASql : string;
       ANext : Integer;
 begin
-  ASql := 'INSERT INTO LOCAL (CODIGO, DESCRICAO) VALUES (:codigo, :descricao)';
+  ASql := ' INSERT INTO LOCAL (CODIGO, DESCRICAO) VALUES (:codigo, :descricao) ';
   ANext := NextSeq('SEQ_LOCAL');
   with QryComum do
   begin
@@ -262,12 +282,12 @@ procedure TDM.InserirMovimentacaoEstoque(ATipoMovimentacao, ACodigoProduto,
   var ASql : string;
       ANext : Integer;
 begin
-  ASql := 'INSERT INTO MOVIMENTO_PRODUTO (' +
-          'CODIGO, TIPO_MOVIMENTO, COD_PRODUTO, COD_LOCAL_ORIGEM, ' +
-          'COD_LOCAL_DESTINO, QUANTIDADE' +
-          ')' +
-          'VALUES (:codigo, :tipo_movimento, :cod_produto, :cod_local_origem,' +
-          ' :cod_local_destino, :quantidade )';
+  ASql := ' INSERT INTO MOVIMENTO_PRODUTO ( ' +
+          ' CODIGO, TIPO_MOVIMENTO, COD_PRODUTO, COD_LOCAL_ORIGEM, ' +
+          ' COD_LOCAL_DESTINO, QUANTIDADE ' +
+          ' ) ' +
+          ' VALUES (:codigo, :tipo_movimento, :cod_produto, :cod_local_origem, ' +
+          ' :cod_local_destino, :quantidade ) ';
 
   ANext := NextSeq('SEQ_MOVIMENTO_PRODUTO');
 
@@ -290,8 +310,8 @@ procedure TDM.InserirProduto(ADescricao, ACodigoBarras: string);
   var ASql : string;
       ANext : Integer;
 begin
-  ASql := 'INSERT INTO PRODUTO (CODIGO, DESCRICAO, CODIGO_BARRAS) ' +
-          'VALUES (:codigo, :descricao, :codigo_barras)';
+  ASql := ' INSERT INTO PRODUTO (CODIGO, DESCRICAO, CODIGO_BARRAS) ' +
+          ' VALUES (:codigo, :descricao, :codigo_barras) ';
 
   ANext := NextSeq('SEQ_PRODUTO');
   with QryComum do

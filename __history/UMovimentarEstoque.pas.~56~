@@ -55,6 +55,11 @@ type
 var
   FrmMovimentarEstoque: TFrmMovimentarEstoque;
 
+const
+  MOV_LOCAIS = 0;
+  MOV_ENTRADA = 1;
+  MOV_SAIDA = 2;
+
 implementation
 
 {$R *.dfm}
@@ -73,8 +78,8 @@ begin
   if Application.MessageBox('Tem Certeza?', 'excluir?',MB_YESNO) = ID_YES then
   begin
     DM.ExcluirLocal(StrToInt(LblCodigo.Caption));
-    DM.QryLocais.Close;
-    DM.QryLocais.Open();
+    DM.QryMovimentosEstoque.Close;
+    DM.QryMovimentosEstoque.Open();
     SetStatusBotoes(1);
     LimparCampos;
   end;
@@ -86,19 +91,18 @@ begin
   if FormularioValido then
   begin
     Gravar(LblCodigo.Caption);
-    DM.QryLocais.Close;
-    DM.QryLocais.Open();
+    DM.QryMovimentosEstoque.Close;
+    DM.QryMovimentosEstoque.Open();
     SetStatusBotoes(1);
     LimparCampos;
     PnlCadastro.Enabled := False;
-  end
-  else
-  ShowMessage('Preenchimento Inválido!');
+  end;
 end;
 
 procedure TFrmMovimentarEstoque.BtnNovoClick(Sender: TObject);
 begin
   PageControl.ActivePageIndex := 0;
+  LimparCampos;
   SetStatusBotoes(2);
   PnlCadastro.Enabled := True;
   CbxTipoMovimentacao.SetFocus;
@@ -107,8 +111,7 @@ end;
 procedure TFrmMovimentarEstoque.DBGConsultaDblClick(Sender: TObject);
 begin
   SetStatusBotoes(3);
-  LblCodigo.Caption := DM.QryLocaisCODIGO.AsString;
-
+  LblCodigo.Caption := DM.QryMovimentosEstoqueCODIGO.AsString;
   EdtCodigoProduto.Text := DM.QryMovimentosEstoqueCOD_PRODUTO.AsString;
   CbxTipoMovimentacao.ItemIndex := DM.QryMovimentosEstoqueTIPO_MOVIMENTO.AsInteger;
   EdtCodigoProduto.Text := DM.QryMovimentosEstoqueCOD_PRODUTO.AsString;
@@ -117,6 +120,7 @@ begin
   EdtDescricaoLocalOrigem.Text := DM.QryMovimentosEstoqueNOME_LOCAL_ORIGEM.AsString;
   EdtCodigoLocalDestino.Text :=  DM.QryMovimentosEstoqueCOD_LOCAL_DESTINO.AsString;
   EdtDescricaoLocalDestino.Text := DM.QryMovimentosEstoqueNOME_LOCAL_DESTINO.AsString;
+  EdtQuantidade.Text := DM.QryMovimentosEstoqueQUANTIDADE.AsString;
   PnlCadastro.Enabled := True;
 end;
 
@@ -126,7 +130,7 @@ begin
   begin
     EdtDescricaoLocalDestino.Text :=
       DM.GetDescricaoLocal(StrToInt(EdtCodigoLocalDestino.Text));
-  end;
+  end else EdtDescricaoLocalDestino.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.EdtCodigoLocalOrigemExit(Sender: TObject);
@@ -135,7 +139,7 @@ begin
   begin
     EdtDescricaoLocalOrigem.Text :=
       DM.GetDescricaoLocal(StrToInt(EdtCodigoLocalOrigem.Text));
-  end;
+  end else EdtDescricaoLocalOrigem.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.EdtCodigoProdutoExit(Sender: TObject);
@@ -144,58 +148,94 @@ begin
   begin
    EdtDescricaoProduto.Text := DM.GetDescricaoProduto(
     StrToInt(EdtCodigoProduto.Text));
-  end;
+  end else EdtDescricaoProduto.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.FormShow(Sender: TObject);
 begin
   SetStatusBotoes(1);
-  DM.QryLocais.Open();
+  DM.QryMovimentosEstoque.Open();
 end;
 
 function TFrmMovimentarEstoque.FormularioValido: Boolean;
 begin
-//  if EdtDescricao.Text <> '' then
-//    Result:= True
-//  else
-//    Result := False;
+  if (EdtCodigoProduto.Text = '') or (EdtQuantidade.Text = '') then
+  begin
+    ShowMessage('Preenchimento Inválido!');
+    Result := False;
+  end else
+  if (CbxTipoMovimentacao.ItemIndex = MOV_LOCAIS) then
+  begin
+    if (EdtCodigoLocalOrigem.Text = '') or (EdtCodigoLocalDestino.Text = '') then
+    begin
+      ShowMessage('Origem e Destino Devem Ser Preenchidos!');
+      Result := False;
+    end else Result := True;
+  end
+  else if CbxTipoMovimentacao.ItemIndex = MOV_SAIDA then
+  begin
+    if EdtCodigoLocalOrigem.Text = '' then
+    begin
+      ShowMessage('Quantidade Origem deve Ser Informada!');
+      Result := False;
+    end else Result := True;
+  end
+  else
+    Result := True;
 end;
 
 procedure TFrmMovimentarEstoque.Gravar(ACodigo: string);
   var ALocalOrigem, ALocalDestino : Integer;
 begin
-  if CbxTipoMovimentacao.ItemIndex = 0 then
-  begin
-    ALocalOrigem := StrToInt(EdtCodigoLocalOrigem.Text);
-    ALocalDestino := StrToInt(EdtCodigoLocalDestino.Text);
-  end else
-  begin
-    ALocalOrigem := 0;
-    ALocalDestino := 0;
-  end;
+  if(FormularioValido) then
+    begin
+      if CbxTipoMovimentacao.ItemIndex = MOV_LOCAIS then
+    begin
+      ALocalOrigem := StrToInt(EdtCodigoLocalOrigem.Text);
+      ALocalDestino := StrToInt(EdtCodigoLocalDestino.Text);
+    end else
+    if CbxTipoMovimentacao.ItemIndex = MOV_ENTRADA then
+    begin
+      ALocalOrigem := 0;
+      ALocalDestino := StrToInt(EdtCodigoLocalDestino.Text);
+    end else
+    if CbxTipoMovimentacao.ItemIndex = MOV_SAIDA then
+    begin
+      ALocalOrigem := StrToInt(EdtCodigoLocalOrigem.Text);
+      ALocalDestino := 0;
+    end;
 
-  if(ACodigo = '0') then
-    DM.InserirMovimentacaoEstoque(
-      CbxTipoMovimentacao.ItemIndex,
-      StrToInt(EdtCodigoProduto.Text),
-      ALocalOrigem,
-      ALocalDestino,
-      StrToFloat(EdtQuantidade.Text)
-    )
-  else
-    DM.AlterarMovimentacaoEstoque(
-      StrToInt(LblCodigo.Caption),
-      CbxTipoMovimentacao.ItemIndex,
-      StrToInt(EdtCodigoProduto.Text),
-      ALocalOrigem,
-      ALocalDestino,
-      StrToFloat(EdtQuantidade.Text)
-    );
+    if(ACodigo = '0') then
+      DM.InserirMovimentacaoEstoque(
+        CbxTipoMovimentacao.ItemIndex,
+        StrToInt(EdtCodigoProduto.Text),
+        ALocalOrigem,
+        ALocalDestino,
+        StrToFloat(EdtQuantidade.Text)
+      )
+    else
+      DM.AlterarMovimentacaoEstoque(
+        StrToInt(LblCodigo.Caption),
+        CbxTipoMovimentacao.ItemIndex,
+        StrToInt(EdtCodigoProduto.Text),
+        ALocalOrigem,
+        ALocalDestino,
+        StrToFloat(EdtQuantidade.Text)
+      );
+  end;
 end;
 
 procedure TFrmMovimentarEstoque.LimparCampos;
 begin
-//  EdtDescricao.Text := '';
+   LblCodigo.Caption := '0';
+   CbxTipoMovimentacao.ItemIndex := 0;
+   EdtCodigoProduto.Text := '';
+   EdtDescricaoProduto.Text := '';
+   EdtCodigoLocalOrigem.Text := '';
+   EdtDescricaoLocalOrigem.Text := '';
+   EdtCodigoLocalDestino.Text := '';
+   EdtDescricaoLocalDestino.Text := '';
+   EdtQuantidade.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.SetStatusBotoes(AStatus: Integer);
