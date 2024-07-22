@@ -33,6 +33,7 @@ type
       ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
     function NextSeq(ASequence : string) : Integer;
     procedure AlterarProduto(ACodigo: Integer;  ADescricao, ACodigoBarras: string);
+    procedure ExcluirProduto(ACodigo : Integer);
   end;
 
 var
@@ -118,6 +119,20 @@ begin
 
   ASql := 'create sequence SEQ_MOVIMENTO_PRODUTO';
   Execute(ASql);
+end;
+
+procedure TDM.ExcluirProduto(ACodigo: Integer);
+  var ASql : string;
+begin
+  ASql := 'DELETE FROM PRODUTO WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
 end;
 
 procedure TDM.Execute(ASql: string);

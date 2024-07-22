@@ -60,7 +60,7 @@ procedure TFrmCadastroProduto.BtnExcluirClick(Sender: TObject);
 begin
   if Application.MessageBox('Tem Certeza?', 'excluir?',MB_YESNO) = ID_YES then
   begin
-
+    DM.ExcluirProduto(StrToInt(LblCodigo.Caption));
     DM.QryProdutos.Close;
     DM.QryProdutos.Open();
     SetStatusBotoes(1);
@@ -95,9 +95,6 @@ end;
 procedure TFrmCadastroProduto.DBGConsultaDblClick(Sender: TObject);
 begin
   SetStatusBotoes(3);
-  {LblCodigo.Caption := '10'; //teste
-  EdtDescricao.Text := 'COCA COLA 2000ML';
-  EdtCodigoBarras.Text := '7894900011517';}
   LblCodigo.Caption := DM.QryProdutosCODIGO.AsString;
   EdtDescricao.Text := DM.QryProdutosDESCRICAO.AsString;
   EdtCodigoBarras.Text := DM.QryProdutosCODIGO_BARRAS.AsString;
