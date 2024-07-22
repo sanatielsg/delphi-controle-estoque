@@ -5,7 +5,7 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.StdCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids;
+  Vcl.StdCtrls, Data.DB, Vcl.Grids, Vcl.DBGrids, UDM;
 
 type
   TFrmCadastroProduto = class(TForm)
@@ -36,6 +36,8 @@ type
     { Public declarations }
     procedure SetStatusBotoes(AStatus : Integer);
     procedure LimparCampos();
+    function FormularioValido: Boolean;
+    procedure Gravar(ACodigo : string);
   end;
 
 var
@@ -58,6 +60,9 @@ procedure TFrmCadastroProduto.BtnExcluirClick(Sender: TObject);
 begin
   if Application.MessageBox('Tem Certeza?', 'excluir?',MB_YESNO) = ID_YES then
   begin
+
+    DM.QryProdutos.Close;
+    DM.QryProdutos.Open();
     SetStatusBotoes(1);
     LimparCampos;
   end;
@@ -66,29 +71,58 @@ end;
 
 procedure TFrmCadastroProduto.BtnGravarClick(Sender: TObject);
 begin
-  SetStatusBotoes(1);
-  LimparCampos;
-  PnlCadastro.Enabled := False;
+  if FormularioValido then
+  begin
+    Gravar(LblCodigo.Caption);
+    DM.QryProdutos.Close;
+    DM.QryProdutos.Open();
+    SetStatusBotoes(1);
+    LimparCampos;
+    PnlCadastro.Enabled := False;
+  end
+  else
+  ShowMessage('Preenchimento Inválido!');
 end;
 
 procedure TFrmCadastroProduto.BtnNovoClick(Sender: TObject);
 begin
   SetStatusBotoes(2);
   PnlCadastro.Enabled := True;
+  EdtDescricao.SetFocus;
 end;
 
 procedure TFrmCadastroProduto.DBGConsultaDblClick(Sender: TObject);
 begin
   SetStatusBotoes(3);
-  LblCodigo.Caption := '10'; //teste
+  {LblCodigo.Caption := '10'; //teste
   EdtDescricao.Text := 'COCA COLA 2000ML';
-  EdtCodigoBarras.Text := '7894900011517';
+  EdtCodigoBarras.Text := '7894900011517';}
+  LblCodigo.Caption := DM.QryProdutosCODIGO.AsString;
+  EdtDescricao.Text := DM.QryProdutosDESCRICAO.AsString;
+  EdtCodigoBarras.Text := DM.QryProdutosCODIGO_BARRAS.AsString;
   PnlCadastro.Enabled := True;
 end;
 
 procedure TFrmCadastroProduto.FormShow(Sender: TObject);
 begin
   SetStatusBotoes(1);
+  DM.QryProdutos.Open();
+end;
+
+function TFrmCadastroProduto.FormularioValido: Boolean;
+begin
+  if EdtDescricao.Text <> '' then
+    Result:= True
+  else
+    Result := False;
+end;
+
+procedure TFrmCadastroProduto.Gravar(ACodigo: string);
+begin
+  if(ACodigo = '0') then
+    DM.InserirProduto(EdtDescricao.Text, EdtCodigoBarras.Text )
+  else
+    DM.AlterarProduto( StrToInt(LblCodigo.Caption),EdtDescricao.Text, EdtCodigoBarras.Text );
 end;
 
 procedure TFrmCadastroProduto.LimparCampos;
@@ -108,6 +142,7 @@ begin
       BtnGravar.Enabled := False;
       BtnCancelar.Enabled := False;
       BtnExcluir.Enabled := False;
+      PageControl.ActivePageIndex := 0;
     end;
 
     2: begin //clicou Novo

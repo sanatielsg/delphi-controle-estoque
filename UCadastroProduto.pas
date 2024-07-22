@@ -86,6 +86,7 @@ end;
 
 procedure TFrmCadastroProduto.BtnNovoClick(Sender: TObject);
 begin
+  PageControl.ActivePageIndex := 0;
   SetStatusBotoes(2);
   PnlCadastro.Enabled := True;
   EdtDescricao.SetFocus;
@@ -94,9 +95,12 @@ end;
 procedure TFrmCadastroProduto.DBGConsultaDblClick(Sender: TObject);
 begin
   SetStatusBotoes(3);
-  LblCodigo.Caption := '10'; //teste
+  {LblCodigo.Caption := '10'; //teste
   EdtDescricao.Text := 'COCA COLA 2000ML';
-  EdtCodigoBarras.Text := '7894900011517';
+  EdtCodigoBarras.Text := '7894900011517';}
+  LblCodigo.Caption := DM.QryProdutosCODIGO.AsString;
+  EdtDescricao.Text := DM.QryProdutosDESCRICAO.AsString;
+  EdtCodigoBarras.Text := DM.QryProdutosCODIGO_BARRAS.AsString;
   PnlCadastro.Enabled := True;
 end;
 
@@ -119,7 +123,7 @@ begin
   if(ACodigo = '0') then
     DM.InserirProduto(EdtDescricao.Text, EdtCodigoBarras.Text )
   else
-    //DM.AlterarProduto(LblCodigo.Caption,EdtDescricao.Text, EdtCodigoBarras.Text );
+    DM.AlterarProduto( StrToInt(LblCodigo.Caption),EdtDescricao.Text, EdtCodigoBarras.Text );
 end;
 
 procedure TFrmCadastroProduto.LimparCampos;

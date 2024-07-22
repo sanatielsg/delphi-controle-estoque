@@ -8,6 +8,7 @@ object DM: TDM
       'Password=masterkey'
       'User_Name=SYSDBA'
       'Database=C:\database\ESTOQUE.FDB')
+    Connected = True
     LoginPrompt = False
     Left = 64
     Top = 80

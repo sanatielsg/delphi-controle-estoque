@@ -32,6 +32,7 @@ type
     procedure InserirMovimentoProduto(
       ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
     function NextSeq(ASequence : string) : Integer;
+    procedure AlterarProduto(ACodigo: Integer;  ADescricao, ACodigoBarras: string);
   end;
 
 var
@@ -48,6 +49,24 @@ implementation
 
 
 { TDM }
+
+procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
+  ACodigoBarras: string);
+  var ASql : string;
+begin
+  ASql := 'UPDATE PRODUTO SET DESCRICAO = :descricao, ' +
+  'CODIGO_BARRAS = :codigo_barras WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('descricao').AsString := ADescricao;
+    ParamByName('codigo_barras').AsString := ACodigoBarras;
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
+end;
 
 procedure TDM.Conectar(ACaminhoBanco : string);
 begin

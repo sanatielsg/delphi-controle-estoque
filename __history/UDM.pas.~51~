@@ -19,6 +19,7 @@ type
     QryProdutosCODIGO: TIntegerField;
     QryProdutosDESCRICAO: TStringField;
     QryProdutosCODIGO_BARRAS: TStringField;
+    DSProdutos: TDataSource;
   private
     { Private declarations }
   public
@@ -30,6 +31,8 @@ type
     procedure InserirLocal(ADescricao: string);
     procedure InserirMovimentoProduto(
       ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
+    function NextSeq(ASequence : string) : Integer;
+    procedure AlterarProduto(ACodigo: Integer;  ADescricao, ACodigoBarras: string);
   end;
 
 var
@@ -46,6 +49,24 @@ implementation
 
 
 { TDM }
+
+procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
+  ACodigoBarras: string);
+  var ASql : string;
+begin
+  ASql := 'UPDATE PRODUTO SET DESCRICAO = :descricao, ' +
+  'CODIGO_BARRAS = :codigo_barras WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+
+    ParamByName('descricao').AsString := ADescricao;
+
+    ExecSQL;
+  end;
+end;
 
 procedure TDM.Conectar(ACaminhoBanco : string);
 begin
@@ -87,6 +108,15 @@ begin
           'QUANTIDADE        NUMERIC(15,3) NOT NULL,' +
           'DATA_HORA         TIMESTAMP DEFAULT CURRENT_TIMESTAMP' +
           ')';
+  Execute(ASql);
+
+  ASql := 'create sequence SEQ_PRODUTO';
+  Execute(ASql);
+
+  ASql := 'create sequence SEQ_LOCAL';
+  Execute(ASql);
+
+  ASql := 'create sequence SEQ_MOVIMENTO_PRODUTO';
   Execute(ASql);
 end;
 
@@ -139,17 +169,34 @@ end;
 
 procedure TDM.InserirProduto(ADescricao, ACodigoBarras: string);
   var ASql : string;
+      ANext : Integer;
 begin
-  ASql := 'INSERT INTO PRODUTO (DESCRICAO, CODIGO_BARRAS) ' +
-          'VALUES (:descricao, :codigo_barras)';
+  ASql := 'INSERT INTO PRODUTO (CODIGO, DESCRICAO, CODIGO_BARRAS) ' +
+          'VALUES (:codigo, :descricao, :codigo_barras)';
+
+  ANext := NextSeq('SEQ_PRODUTO');
   with QryComum do
   begin
     Close;
     SQL.Clear;
     SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ANext;
     ParamByName('descricao').AsString := ADescricao;
     ParamByName('codigo_barras').AsString := ACodigoBarras;
     ExecSQL;
+  end;
+end;
+
+function TDM.NextSeq(ASequence: string): Integer;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('select GEN_ID('+ASequence+', 1) as SEQ from RDB$DATABASE');
+    Open();
+    Result := FieldByName('SEQ').AsInteger;
   end;
 end;
 
