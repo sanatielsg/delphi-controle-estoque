@@ -33,7 +33,6 @@ object FrmPrincipal: TFrmPrincipal
       Caption = 'Movimenta'#231#245'es'
       object MovimentarEstoque1: TMenuItem
         Caption = 'Movimentar Estoque'
-        OnClick = MovimentarEstoque1Click
       end
     end
     object Relatrios1: TMenuItem

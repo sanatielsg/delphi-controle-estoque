@@ -79,15 +79,7 @@ object DM: TDM
   object QryMovimentosEstoque: TFDQuery
     Connection = Con
     SQL.Strings = (
-      'SELECT'
-      'A.*,'
-      'B.descricao AS NOME_PRODUTO,'
-      'C.descricao AS NOME_LOCAL_ORIGEM,'
-      'D.descricao AS NOME_LOCAL_DESTINO'
-      'FROM MOVIMENTO_PRODUTO A'
-      ' LEFT JOIN PRODUTO  B ON A.cod_produto = B.codigo'
-      ' LEFT JOIN LOCAL C ON A.cod_local_origem = C.codigo'
-      ' LEFT JOIN LOCAL D ON A.cod_local_destino = D.codigo')
+      'SELECT * FROM MOVIMENTO_PRODUTO')
     Left = 296
     Top = 16
     object QryMovimentosEstoqueCODIGO: TIntegerField
@@ -126,30 +118,6 @@ object DM: TDM
     object QryMovimentosEstoqueDATA_HORA: TSQLTimeStampField
       FieldName = 'DATA_HORA'
       Origin = 'DATA_HORA'
-    end
-    object QryMovimentosEstoqueNOME_PRODUTO: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'NOME_PRODUTO'
-      Origin = 'DESCRICAO'
-      ProviderFlags = []
-      ReadOnly = True
-      Size = 100
-    end
-    object QryMovimentosEstoqueNOME_LOCAL_ORIGEM: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'NOME_LOCAL_ORIGEM'
-      Origin = 'DESCRICAO'
-      ProviderFlags = []
-      ReadOnly = True
-      Size = 50
-    end
-    object QryMovimentosEstoqueNOME_LOCAL_DESTINO: TStringField
-      AutoGenerateValue = arDefault
-      FieldName = 'NOME_LOCAL_DESTINO'
-      Origin = 'DESCRICAO'
-      ProviderFlags = []
-      ReadOnly = True
-      Size = 50
     end
   end
   object DSMovimentosEstoque: TDataSource

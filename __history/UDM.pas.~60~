@@ -21,9 +21,17 @@ type
     QryProdutosCODIGO_BARRAS: TStringField;
     DSProdutos: TDataSource;
     QryLocais: TFDQuery;
-    IntegerField1: TIntegerField;
-    StringField1: TStringField;
     DSLocais: TDataSource;
+    QryLocaisCODIGO: TIntegerField;
+    QryLocaisDESCRICAO: TStringField;
+    QryMovimentosEstoque: TFDQuery;
+    DSMovimentosEstoque: TDataSource;
+    QryMovimentosEstoqueCODIGO: TIntegerField;
+    QryMovimentosEstoqueCOD_PRODUTO: TIntegerField;
+    QryMovimentosEstoqueCOD_LOCAL_ORIGEM: TIntegerField;
+    QryMovimentosEstoqueCOD_LOCAL_DESTINO: TIntegerField;
+    QryMovimentosEstoqueQUANTIDADE: TFMTBCDField;
+    QryMovimentosEstoqueDATA_HORA: TSQLTimeStampField;
   private
     { Private declarations }
   public
@@ -62,8 +70,18 @@ implementation
 { TDM }
 
 procedure TDM.AlterarLocal(ACodigo: Integer; ADescricao: string);
+  var ASql : string;
 begin
-
+  ASql := 'UPDATE LOCAL SET DESCRICAO = :descricao WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('descricao').AsString := ADescricao;
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
 end;
 
 procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
@@ -137,8 +155,17 @@ begin
 end;
 
 procedure TDM.ExcluirLocal(ACodigo: Integer);
+  var ASql : string;
 begin
-
+  ASql := 'DELETE FROM LOCAL WHERE CODIGO = :codigo ';
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ACodigo;
+    ExecSQL;
+  end;
 end;
 
 procedure TDM.ExcluirProduto(ACodigo: Integer);
@@ -168,13 +195,16 @@ end;
 
 procedure TDM.InserirLocal(ADescricao: string);
   var ASql : string;
+      ANext : Integer;
 begin
-  ASql := 'INSERT INTO LOCAL (DESCRICAO) VALUES (:descricao)';
+  ASql := 'INSERT INTO LOCAL (CODIGO, DESCRICAO) VALUES (:codigo, :descricao)';
+  ANext := NextSeq('SEQ_LOCAL');
   with QryComum do
   begin
     Close;
     SQL.Clear;
     SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ANext;
     ParamByName('descricao').AsString := ADescricao;
     ExecSQL;
   end;

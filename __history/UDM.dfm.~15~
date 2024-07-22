@@ -27,8 +27,8 @@ object DM: TDM
     Connection = Con
     SQL.Strings = (
       'SELECT * FROM PRODUTO')
-    Left = 248
-    Top = 176
+    Left = 256
+    Top = 152
     object QryProdutosCODIGO: TIntegerField
       FieldName = 'CODIGO'
       Origin = 'CODIGO'
@@ -46,5 +46,34 @@ object DM: TDM
       Origin = 'CODIGO_BARRAS'
       Size = 14
     end
+  end
+  object DSProdutos: TDataSource
+    DataSet = QryProdutos
+    Left = 288
+    Top = 216
+  end
+  object QryLocais: TFDQuery
+    Connection = Con
+    SQL.Strings = (
+      'SELECT * FROM LOCAL')
+    Left = 392
+    Top = 176
+    object QryLocaisCODIGO: TIntegerField
+      FieldName = 'CODIGO'
+      Origin = 'CODIGO'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object QryLocaisDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Origin = 'DESCRICAO'
+      Required = True
+      Size = 50
+    end
+  end
+  object DSLocais: TDataSource
+    DataSet = QryLocais
+    Left = 400
+    Top = 256
   end
 end

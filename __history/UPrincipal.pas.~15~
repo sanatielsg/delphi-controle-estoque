@@ -52,9 +52,9 @@ end;
 
 procedure TFrmPrincipal.MovimentarEstoque1Click(Sender: TObject);
 begin
-  FrmMovimentarEstoque := TFrmMovimentarEstoque.Create(Self);
-  FrmMovimentarEstoque.ShowModal;
-  FrmMovimentarEstoque := Nil;
+  FrmMovi := TFrmCadastroProduto.Create(Self);
+  FrmCadastroProduto.ShowModal;
+  FrmCadastroProduto := Nil;
 end;
 
 procedure TFrmPrincipal.Produto1Click(Sender: TObject);
