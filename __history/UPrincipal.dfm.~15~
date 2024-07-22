@@ -12,6 +12,7 @@ object FrmPrincipal: TFrmPrincipal
   Font.Style = []
   Menu = MainMenu
   OldCreateOrder = False
+  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object MainMenu: TMainMenu
@@ -21,21 +22,31 @@ object FrmPrincipal: TFrmPrincipal
       Caption = 'Cadastros'
       object Produto1: TMenuItem
         Caption = 'Produto'
+        OnClick = Produto1Click
       end
       object Local1: TMenuItem
         Caption = 'Local'
+        OnClick = Local1Click
       end
     end
     object Movimentao1: TMenuItem
       Caption = 'Movimenta'#231#245'es'
       object MovimentarEstoque1: TMenuItem
         Caption = 'Movimentar Estoque'
+        OnClick = MovimentarEstoque1Click
       end
     end
     object Relatrios1: TMenuItem
       Caption = 'Relat'#243'rios'
       object Movimentaes1: TMenuItem
         Caption = 'Movimenta'#231#245'es'
+      end
+    end
+    object Sistema1: TMenuItem
+      Caption = 'Admin'
+      object CriarEstruturas1: TMenuItem
+        Caption = 'Criar Estruturas'
+        OnClick = CriarEstruturas1Click
       end
     end
   end

@@ -40,6 +40,7 @@ object FrmPrincipal: TFrmPrincipal
       Caption = 'Relat'#243'rios'
       object Movimentaes1: TMenuItem
         Caption = 'Movimenta'#231#245'es'
+        OnClick = Movimentaes1Click
       end
     end
     object Sistema1: TMenuItem

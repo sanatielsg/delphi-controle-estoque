@@ -7,8 +7,7 @@ uses
   UDM in 'UDM.pas' {DM: TDataModule},
   UCadastroProduto in 'UCadastroProduto.pas' {FrmCadastroProduto},
   UCadastroLocal in 'UCadastroLocal.pas' {FrmCadastroLocal},
-  UMovimentarEstoque in 'UMovimentarEstoque.pas' {FrmMovimentarEstoque},
-  URelatorioMovimentacao in 'URelatorioMovimentacao.pas' {FrmRelatorioMovimentacoes};
+  UMovimentarEstoque in 'UMovimentarEstoque.pas' {FrmMovimentarEstoque};
 
 {$R *.res}
 
@@ -21,6 +20,5 @@ begin
   Application.CreateForm(TFrmCadastroProduto, FrmCadastroProduto);
   Application.CreateForm(TFrmCadastroLocal, FrmCadastroLocal);
   Application.CreateForm(TFrmMovimentarEstoque, FrmMovimentarEstoque);
-  Application.CreateForm(TFrmRelatorioMovimentacoes, FrmRelatorioMovimentacoes);
   Application.Run;
 end.

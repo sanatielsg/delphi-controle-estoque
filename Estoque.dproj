@@ -123,6 +123,10 @@
             <Form>FrmMovimentarEstoque</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="URelatorioMovimentacao.pas">
+            <Form>FrmRelatorioMovimentacoes</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

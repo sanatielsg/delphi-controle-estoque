@@ -23,11 +23,8 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 61
     object TabSheet1: TTabSheet
       Caption = 'Cadastro'
-      ExplicitWidth = 509
-      ExplicitHeight = 250
       object PnlCadastro: TPanel
         Left = 0
         Top = 0
@@ -36,8 +33,6 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
         Align = alClient
         Enabled = False
         TabOrder = 0
-        ExplicitWidth = 509
-        ExplicitHeight = 250
         object LblCodigo: TLabel
           Left = 16
           Top = 8
@@ -167,8 +162,6 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
     object TabSheet2: TTabSheet
       Caption = 'Consulta'
       ImageIndex = 1
-      ExplicitWidth = 509
-      ExplicitHeight = 250
       object DBGConsulta: TDBGrid
         Left = 16
         Top = 24
@@ -242,7 +235,6 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 517
     object BtnNovo: TSpeedButton
       Left = 4
       Top = 3
@@ -254,7 +246,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
     end
     object BtnGravar: TSpeedButton
       Left = 71
-      Top = 0
+      Top = 3
       Width = 61
       Height = 52
       Caption = 'Gravar'

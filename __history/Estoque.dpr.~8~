@@ -8,7 +8,7 @@ uses
   UCadastroProduto in 'UCadastroProduto.pas' {FrmCadastroProduto},
   UCadastroLocal in 'UCadastroLocal.pas' {FrmCadastroLocal},
   UMovimentarEstoque in 'UMovimentarEstoque.pas' {FrmMovimentarEstoque},
-  URelatorioMovimentacao in 'URelatorioMovimentacao.pas' {FrmRelatorioMovimentacoes};
+  URelatorioMovimentacao in 'URelatorioMovimentacao.pas' {Form1};
 
 {$R *.res}
 
@@ -21,6 +21,6 @@ begin
   Application.CreateForm(TFrmCadastroProduto, FrmCadastroProduto);
   Application.CreateForm(TFrmCadastroLocal, FrmCadastroLocal);
   Application.CreateForm(TFrmMovimentarEstoque, FrmMovimentarEstoque);
-  Application.CreateForm(TFrmRelatorioMovimentacoes, FrmRelatorioMovimentacoes);
+  Application.CreateForm(TForm1, Form1);
   Application.Run;
 end.

@@ -23,7 +23,6 @@ type
     procedure Produto1Click(Sender: TObject);
     procedure Local1Click(Sender: TObject);
     procedure MovimentarEstoque1Click(Sender: TObject);
-    procedure Movimentaes1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -41,7 +40,6 @@ procedure TFrmPrincipal.CriarEstruturas1Click(Sender: TObject);
 begin
   FrmCriarEstrutura := TFrmCriarEstrutura.Create(Self);
   FrmCriarEstrutura.ShowModal;
-  FrmCriarEstrutura.Free;
   FrmCriarEstrutura := Nil;
 end;
 
@@ -49,23 +47,13 @@ procedure TFrmPrincipal.Local1Click(Sender: TObject);
 begin
   FrmCadastroLocal := TFrmCadastroLocal.Create(Self);
   FrmCadastroLocal.ShowModal;
-  FrmCadastroLocal.Free;
   FrmCadastroLocal := Nil;
-end;
-
-procedure TFrmPrincipal.Movimentaes1Click(Sender: TObject);
-begin
-  FrmRelatorioMovimentacoes := TFrmRelatorioMovimentacoes.Create(Self);
-  FrmRelatorioMovimentacoes.ShowModal;
-  FrmRelatorioMovimentacoes.Free;
-  FrmRelatorioMovimentacoes := Nil;
 end;
 
 procedure TFrmPrincipal.MovimentarEstoque1Click(Sender: TObject);
 begin
   FrmMovimentarEstoque := TFrmMovimentarEstoque.Create(Self);
   FrmMovimentarEstoque.ShowModal;
-  FrmMovimentarEstoque.Free;
   FrmMovimentarEstoque := Nil;
 end;
 
@@ -73,7 +61,6 @@ procedure TFrmPrincipal.Produto1Click(Sender: TObject);
 begin
   FrmCadastroProduto := TFrmCadastroProduto.Create(Self);
   FrmCadastroProduto.ShowModal;
-  FrmCadastroProduto.Free;
   FrmCadastroProduto := Nil;
 end;
 
