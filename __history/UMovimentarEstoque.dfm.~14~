@@ -133,7 +133,6 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Height = 21
           NumbersOnly = True
           TabOrder = 5
-          OnExit = EdtCodigoLocalDestinoExit
         end
         object EdtDescricaoLocalDestino: TEdit
           Left = 79

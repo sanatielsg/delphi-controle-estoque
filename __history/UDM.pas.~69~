@@ -24,6 +24,18 @@ type
     DSLocais: TDataSource;
     QryLocaisCODIGO: TIntegerField;
     QryLocaisDESCRICAO: TStringField;
+    QryMovimentosEstoque: TFDQuery;
+    DSMovimentosEstoque: TDataSource;
+    QryMovimentosEstoqueCODIGO: TIntegerField;
+    QryMovimentosEstoqueCOD_PRODUTO: TIntegerField;
+    QryMovimentosEstoqueTIPO_MOVIMENTO: TIntegerField;
+    QryMovimentosEstoqueCOD_LOCAL_ORIGEM: TIntegerField;
+    QryMovimentosEstoqueCOD_LOCAL_DESTINO: TIntegerField;
+    QryMovimentosEstoqueQUANTIDADE: TFMTBCDField;
+    QryMovimentosEstoqueDATA_HORA: TSQLTimeStampField;
+    QryMovimentosEstoqueNOME_PRODUTO: TStringField;
+    QryMovimentosEstoqueNOME_LOCAL_ORIGEM: TStringField;
+    QryMovimentosEstoqueNOME_LOCAL_DESTINO: TStringField;
   private
     { Private declarations }
   public
@@ -43,6 +55,9 @@ type
     procedure InserirLocal(ADescricao: string);
     procedure AlterarLocal(ACodigo: Integer;  ADescricao: string);
     procedure ExcluirLocal(ACodigo : Integer);
+
+    function GetDescricaoProduto(ACodigo : Integer): string;
+    function GetDescricaoLocalOrigem(ACodigo : Integer): string;
 
   end;
 
@@ -129,6 +144,7 @@ begin
   ASql := 'CREATE TABLE MOVIMENTO_PRODUTO(' +
           'CODIGO            INTEGER NOT NULL PRIMARY KEY,'+
           'COD_PRODUTO       INTEGER NOT NULL,'+
+          'TIPO_MOVIMENTO    INTEGER NOT NULL,' +
           'COD_LOCAL_ORIGEM  INTEGER NOT NULL,' +
           'COD_LOCAL_DESTINO INTEGER NOT NULL,' +
           'QUANTIDADE        NUMERIC(15,3) NOT NULL,' +
@@ -182,6 +198,34 @@ begin
     SQL.Clear;
     SQL.Add(ASql);
     ExecSQL;
+  end;
+end;
+
+function TDM.GetDescricaoLocalOrigem(ACodigo: Integer): string;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM LOCAL WHERE CODIGO = :codigo');
+    ParamByName('codigo').AsInteger := ACodigo;
+    Open();
+    Result := FieldByName('DESCRICAO').AsString;
+  end;
+end;
+
+function TDM.GetDescricaoProduto(ACodigo: Integer): string;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM PRODUTO WHERE CODIGO = :codigo');
+    ParamByName('codigo').AsInteger := ACodigo;
+    Open();
+    Result := FieldByName('DESCRICAO').AsString;
   end;
 end;
 

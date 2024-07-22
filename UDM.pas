@@ -57,7 +57,7 @@ type
     procedure ExcluirLocal(ACodigo : Integer);
 
     function GetDescricaoProduto(ACodigo : Integer): string;
-    function GetDescricaoLocalOrigem(ACodigo : Integer): string;
+    function GetDescricaoLocal(ACodigo : Integer): string;
 
   end;
 
@@ -201,7 +201,7 @@ begin
   end;
 end;
 
-function TDM.GetDescricaoLocalOrigem(ACodigo: Integer): string;
+function TDM.GetDescricaoLocal(ACodigo: Integer): string;
   var ASql : string;
 begin
   with QryComum do
