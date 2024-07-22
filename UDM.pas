@@ -49,9 +49,6 @@ type
     procedure AlterarProduto(ACodigo: Integer;  ADescricao, ACodigoBarras: string);
     procedure ExcluirProduto(ACodigo : Integer);
 
-    procedure InserirMovimentoProduto(
-      ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
-
     procedure InserirLocal(ADescricao: string);
     procedure AlterarLocal(ACodigo: Integer;  ADescricao: string);
     procedure ExcluirLocal(ACodigo : Integer);
@@ -59,6 +56,14 @@ type
     function GetDescricaoProduto(ACodigo : Integer): string;
     function GetDescricaoLocal(ACodigo : Integer): string;
 
+    procedure AlterarMovimentacaoEstoque(
+      ACodigo, ATipoMovimentacao, ACodigoProduto, ALocalOrigem,
+      ALocalDestino : Integer; AQuantidade : Double );
+
+    procedure InserirMovimentacaoEstoque(
+      ATipoMovimentacao,ACodigoProduto, ALocalOrigem, ALocalDestino : Integer;
+      AQuantidade : Double
+    );
   end;
 
 var
@@ -89,6 +94,12 @@ begin
     ParamByName('codigo').AsInteger := ACodigo;
     ExecSQL;
   end;
+end;
+
+procedure TDM.AlterarMovimentacaoEstoque(ACodigo, ATipoMovimentacao,
+  ACodigoProduto, ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
+begin
+
 end;
 
 procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
@@ -246,20 +257,27 @@ begin
   end;
 end;
 
-procedure TDM.InserirMovimentoProduto(ACodigoProduto, ALocalOrigem,
-  ALocalDestino: Integer; AQuantidade: Double);
+procedure TDM.InserirMovimentacaoEstoque(ATipoMovimentacao, ACodigoProduto,
+  ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
   var ASql : string;
+      ANext : Integer;
 begin
   ASql := 'INSERT INTO MOVIMENTO_PRODUTO (' +
-          'COD_PRODUTO, COD_LOCAL_ORIGEM, COD_LOCAL_DESTINO, QUANTIDADE' +
+          'CODIGO, TIPO_MOVIMENTO, COD_PRODUTO, COD_LOCAL_ORIGEM, ' +
+          'COD_LOCAL_DESTINO, QUANTIDADE' +
           ')' +
-          'VALUES (:cod_produto, :cod_local_origem, :cod_local_destino,' +
-          ' :quantidade )';
+          'VALUES (:codigo, :tipo_movimento, :cod_produto, :cod_local_origem,' +
+          ' :cod_local_destino, :quantidade )';
+
+  ANext := NextSeq('SEQ_MOVIMENTO_PRODUTO');
+
   with QryComum do
   begin
     Close;
     SQL.Clear;
     SQL.Add(ASql);
+    ParamByName('codigo').AsInteger := ANext;
+    ParamByName('tipo_movimento').AsInteger := ATipoMovimentacao;
     ParamByName('cod_produto').AsInteger := ACodigoProduto;
     ParamByName('cod_local_origem').AsInteger := ALocalOrigem;
     ParamByName('cod_local_destino').AsInteger := ALocalDestino;

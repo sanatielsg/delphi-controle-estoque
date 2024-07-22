@@ -57,7 +57,17 @@ type
     procedure ExcluirLocal(ACodigo : Integer);
 
     function GetDescricaoProduto(ACodigo : Integer): string;
+    function GetDescricaoLocal(ACodigo : Integer): string;
 
+    procedure AlterarMovimentacaoEstoque(
+      ATipoMovimentacao, ACodigoProduto, ALocalOrigem, ALocalDestino : Integer;
+      AQuantidade : Double
+    );
+
+    procedure InserirMovimentacaoEstoque(
+      ATipoMovimentacao, ALocalOrigem, ALocalDestino : Integer;
+      AQuantidade : Double
+    );
   end;
 
 var
@@ -200,6 +210,20 @@ begin
   end;
 end;
 
+function TDM.GetDescricaoLocal(ACodigo: Integer): string;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM LOCAL WHERE CODIGO = :codigo');
+    ParamByName('codigo').AsInteger := ACodigo;
+    Open();
+    Result := FieldByName('DESCRICAO').AsString;
+  end;
+end;
+
 function TDM.GetDescricaoProduto(ACodigo: Integer): string;
   var ASql : string;
 begin
@@ -210,7 +234,7 @@ begin
     SQL.Add('SELECT DESCRICAO FROM PRODUTO WHERE CODIGO = :codigo');
     ParamByName('codigo').AsInteger := ACodigo;
     Open();
-    Result := FieldByName('DESCRICAO').AsInteger;
+    Result := FieldByName('DESCRICAO').AsString;
   end;
 end;
 

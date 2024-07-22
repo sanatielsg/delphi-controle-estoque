@@ -31,6 +31,8 @@ type
     EdtCodigoLocalDestino: TEdit;
     EdtDescricaoLocalDestino: TEdit;
     Label4: TLabel;
+    Label5: TLabel;
+    EdtQuantidade: TEdit;
     procedure FormShow(Sender: TObject);
     procedure BtnNovoClick(Sender: TObject);
     procedure BtnGravarClick(Sender: TObject);
@@ -71,8 +73,8 @@ begin
   if Application.MessageBox('Tem Certeza?', 'excluir?',MB_YESNO) = ID_YES then
   begin
     DM.ExcluirLocal(StrToInt(LblCodigo.Caption));
-    DM.QryLocais.Close;
-    DM.QryLocais.Open();
+    DM.QryMovimentosEstoque.Close;
+    DM.QryMovimentosEstoque.Open();
     SetStatusBotoes(1);
     LimparCampos;
   end;
@@ -84,8 +86,8 @@ begin
   if FormularioValido then
   begin
     Gravar(LblCodigo.Caption);
-    DM.QryLocais.Close;
-    DM.QryLocais.Open();
+    DM.QryMovimentosEstoque.Close;
+    DM.QryMovimentosEstoque.Open();
     SetStatusBotoes(1);
     LimparCampos;
     PnlCadastro.Enabled := False;
@@ -97,6 +99,7 @@ end;
 procedure TFrmMovimentarEstoque.BtnNovoClick(Sender: TObject);
 begin
   PageControl.ActivePageIndex := 0;
+  LimparCampos;
   SetStatusBotoes(2);
   PnlCadastro.Enabled := True;
   CbxTipoMovimentacao.SetFocus;
@@ -105,8 +108,7 @@ end;
 procedure TFrmMovimentarEstoque.DBGConsultaDblClick(Sender: TObject);
 begin
   SetStatusBotoes(3);
-  LblCodigo.Caption := DM.QryLocaisCODIGO.AsString;
-
+  LblCodigo.Caption := DM.QryMovimentosEstoqueCODIGO.AsString;
   EdtCodigoProduto.Text := DM.QryMovimentosEstoqueCOD_PRODUTO.AsString;
   CbxTipoMovimentacao.ItemIndex := DM.QryMovimentosEstoqueTIPO_MOVIMENTO.AsInteger;
   EdtCodigoProduto.Text := DM.QryMovimentosEstoqueCOD_PRODUTO.AsString;
@@ -115,6 +117,7 @@ begin
   EdtDescricaoLocalOrigem.Text := DM.QryMovimentosEstoqueNOME_LOCAL_ORIGEM.AsString;
   EdtCodigoLocalDestino.Text :=  DM.QryMovimentosEstoqueCOD_LOCAL_DESTINO.AsString;
   EdtDescricaoLocalDestino.Text := DM.QryMovimentosEstoqueNOME_LOCAL_DESTINO.AsString;
+  EdtQuantidade.Text := DM.QryMovimentosEstoqueQUANTIDADE.AsString;
   PnlCadastro.Enabled := True;
 end;
 
@@ -148,7 +151,7 @@ end;
 procedure TFrmMovimentarEstoque.FormShow(Sender: TObject);
 begin
   SetStatusBotoes(1);
-  DM.QryLocais.Open();
+  DM.QryMovimentosEstoque.Open();
 end;
 
 function TFrmMovimentarEstoque.FormularioValido: Boolean;
@@ -160,16 +163,48 @@ begin
 end;
 
 procedure TFrmMovimentarEstoque.Gravar(ACodigo: string);
+  var ALocalOrigem, ALocalDestino : Integer;
 begin
-//  if(ACodigo = '0') then
-//    DM.InserirLocal(EdtDescricao.Text)
-//  else
-//    DM.AlterarLocal( StrToInt(LblCodigo.Caption),EdtDescricao.Text);
+  if CbxTipoMovimentacao.ItemIndex = 0 then
+  begin
+    ALocalOrigem := StrToInt(EdtCodigoLocalOrigem.Text);
+    ALocalDestino := StrToInt(EdtCodigoLocalDestino.Text);
+  end else
+  begin
+    ALocalOrigem := 0;
+    ALocalDestino := 0;
+  end;
+
+  if(ACodigo = '0') then
+    DM.InserirMovimentacaoEstoque(
+      CbxTipoMovimentacao.ItemIndex,
+      StrToInt(EdtCodigoProduto.Text),
+      ALocalOrigem,
+      ALocalDestino,
+      StrToFloat(EdtQuantidade.Text)
+    )
+  else
+    DM.AlterarMovimentacaoEstoque(
+      StrToInt(LblCodigo.Caption),
+      CbxTipoMovimentacao.ItemIndex,
+      StrToInt(EdtCodigoProduto.Text),
+      ALocalOrigem,
+      ALocalDestino,
+      StrToFloat(EdtQuantidade.Text)
+    );
 end;
 
 procedure TFrmMovimentarEstoque.LimparCampos;
 begin
-//  EdtDescricao.Text := '';
+   LblCodigo.Caption := '0';
+   CbxTipoMovimentacao.ItemIndex := 0;
+   EdtCodigoProduto.Text := '';
+   EdtDescricaoProduto.Text := '';
+   EdtCodigoLocalOrigem.Text := '';
+   EdtDescricaoLocalOrigem.Text := '';
+   EdtCodigoLocalDestino.Text := '';
+   EdtDescricaoLocalDestino.Text := '';
+   EdtQuantidade.Text := '';
 end;
 
 procedure TFrmMovimentarEstoque.SetStatusBotoes(AStatus: Integer);

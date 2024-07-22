@@ -28,10 +28,14 @@ type
     DSMovimentosEstoque: TDataSource;
     QryMovimentosEstoqueCODIGO: TIntegerField;
     QryMovimentosEstoqueCOD_PRODUTO: TIntegerField;
+    QryMovimentosEstoqueTIPO_MOVIMENTO: TIntegerField;
     QryMovimentosEstoqueCOD_LOCAL_ORIGEM: TIntegerField;
     QryMovimentosEstoqueCOD_LOCAL_DESTINO: TIntegerField;
     QryMovimentosEstoqueQUANTIDADE: TFMTBCDField;
     QryMovimentosEstoqueDATA_HORA: TSQLTimeStampField;
+    QryMovimentosEstoqueNOME_PRODUTO: TStringField;
+    QryMovimentosEstoqueNOME_LOCAL_ORIGEM: TStringField;
+    QryMovimentosEstoqueNOME_LOCAL_DESTINO: TStringField;
   private
     { Private declarations }
   public
@@ -52,6 +56,18 @@ type
     procedure AlterarLocal(ACodigo: Integer;  ADescricao: string);
     procedure ExcluirLocal(ACodigo : Integer);
 
+    function GetDescricaoProduto(ACodigo : Integer): string;
+    function GetDescricaoLocal(ACodigo : Integer): string;
+
+    procedure AlterarMovimentacaoEstoque(
+      ATipoMovimentacao, ACodigoProduto, ALocalOrigem, ALocalDestino : Integer;
+      AQuantidade : Double
+    );
+
+    procedure InserirMovimentacaoEstoque(
+      ATipoMovimentacao,ACodigoProduto, ALocalOrigem, ALocalDestino : Integer;
+      AQuantidade : Double
+    );
   end;
 
 var
@@ -82,6 +98,12 @@ begin
     ParamByName('codigo').AsInteger := ACodigo;
     ExecSQL;
   end;
+end;
+
+procedure TDM.AlterarMovimentacaoEstoque(ATipoMovimentacao, ACodigoProduto,
+  ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
+begin
+
 end;
 
 procedure TDM.AlterarProduto(ACodigo: Integer; ADescricao,
@@ -194,6 +216,34 @@ begin
   end;
 end;
 
+function TDM.GetDescricaoLocal(ACodigo: Integer): string;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM LOCAL WHERE CODIGO = :codigo');
+    ParamByName('codigo').AsInteger := ACodigo;
+    Open();
+    Result := FieldByName('DESCRICAO').AsString;
+  end;
+end;
+
+function TDM.GetDescricaoProduto(ACodigo: Integer): string;
+  var ASql : string;
+begin
+  with QryComum do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT DESCRICAO FROM PRODUTO WHERE CODIGO = :codigo');
+    ParamByName('codigo').AsInteger := ACodigo;
+    Open();
+    Result := FieldByName('DESCRICAO').AsString;
+  end;
+end;
+
 procedure TDM.InserirLocal(ADescricao: string);
   var ASql : string;
       ANext : Integer;
@@ -209,6 +259,12 @@ begin
     ParamByName('descricao').AsString := ADescricao;
     ExecSQL;
   end;
+end;
+
+procedure TDM.InserirMovimentacaoEstoque(ATipoMovimentacao, ACodigoProduto,
+  ALocalOrigem, ALocalDestino: Integer; AQuantidade: Double);
+begin
+
 end;
 
 procedure TDM.InserirMovimentoProduto(ACodigoProduto, ALocalOrigem,

@@ -81,6 +81,13 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Height = 13
           Caption = 'Local de Destino'
         end
+        object Label5: TLabel
+          Left = 328
+          Top = 52
+          Width = 56
+          Height = 13
+          Caption = 'Quantidade'
+        end
         object EdtCodigoProduto: TEdit
           Left = 16
           Top = 117
@@ -88,6 +95,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Height = 21
           NumbersOnly = True
           TabOrder = 0
+          OnExit = EdtCodigoProdutoExit
         end
         object EdtDescricaoProduto: TEdit
           Left = 79
@@ -116,6 +124,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Height = 21
           NumbersOnly = True
           TabOrder = 3
+          OnExit = EdtCodigoLocalOrigemExit
         end
         object EdtDescricaoLocalOrigem: TEdit
           Left = 79
@@ -131,6 +140,7 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Height = 21
           NumbersOnly = True
           TabOrder = 5
+          OnExit = EdtCodigoLocalDestinoExit
         end
         object EdtDescricaoLocalDestino: TEdit
           Left = 79
@@ -138,6 +148,15 @@ object FrmMovimentarEstoque: TFrmMovimentarEstoque
           Width = 346
           Height = 21
           TabOrder = 6
+        end
+        object Edit1: TEdit
+          Left = 328
+          Top = 71
+          Width = 97
+          Height = 21
+          NumbersOnly = True
+          TabOrder = 7
+          OnExit = EdtCodigoProdutoExit
         end
       end
     end
